@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Plans - MobiComm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+           
+             font-family: "Open Sans", sans-serif;
+
+
+        }
+
+        .navbar-custom {
+            background-color: #077C84;
+            height: 50px;
+        }
+
+        .navbar-brand {
+            font-size: 1.2rem;
+            padding-left: 15px;
+        }
+
+        .navbar-nav {
+          margin-left: auto;
+        }
+
+        .container-fluid {
+            display: flex;
+            flex: 1;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 160px;
+            background-color: #077C84;
+            color: white;
+            padding: 15px;
+            box-shadow: 5px 0 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 1px;
+        }
+
+        .sidebar h4 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+            display: block;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 40px;
+            margin-top: 56px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-recharge {
+            background-color: #e28631;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .btn-recharge:hover {
+            background-color: #d17728;
+        }
+
+        .footer {
+            background-color: #077C84;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#">MobiComm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="prepaidDropdown" role="button" data-bs-toggle="dropdown">Prepaid</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="home.html">Recharge</a></li>
+                            <li><a class="dropdown-item" href="prepaid page.html">View Plans</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact page.html">Services</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"><i class="fas fa-user-circle"></i> Profile</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html" data-bs-target="#signInModal">Sign In</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <nav class="sidebar">
+            <h4>View Plans</h4>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="popular plans.html">Popular Plans</a></li>
+                <li class="nav-item"><a class="nav-link" href="validity plans.html">Validity Plans</a></li>
+                <li class="nav-item"><a class="nav-link" href="data plans.html">Data Plans</a></li>
+                <li class="nav-item"><a class="nav-link" href="unlimited plans.html">Unlimited Plans</a></li>
+            </ul>
+        </nav>
+        
+        <div class="content">
+            <h2 class="text-center mb-4">📶 Data Plans 📶</h2>
+            <div class="row">
+                <div class="card">
+                    <h5 class="plan-price">₹ 199</h5>
+                    <p>✔ 1.5GB/Day | 28 Days</p>
+                    <button class="btn btn-recharge" onclick="redirectToPayment(199, '1.5GB/Day Plan', '28 Days')">Recharge Now</button>
+
+                </div>
+                <div class="card">
+                    <h5 class="plan-price">₹ 399</h5>
+                    <p>✔ 2GB/Day | 56 Days</p>
+                    <button class="btn btn-recharge" onclick="redirectToPayment(399, '2GB/Day Plan', '56 Days')">Recharge Now</button>
+
+                </div>
+                <div class="card">
+                    <h5 class="plan-price">₹ 599</h5>
+                    <p>✔ 3GB/Day | 84 Days</p>
+                    <button class="btn btn-recharge" onclick="redirectToPayment(599, '3GB/Day Plan', '84 Days')">Recharge Now</button>
+
+                </div>
+                <div class="card">
+                    <h5 class="plan-price">₹ 699</h5>
+                    <p>✔ 3.5GB/Day |112  Days</p>
+                    <button class="btn btn-recharge" onclick="redirectToPayment(699, '3.5GB/Day Plan', '112')">Recharge Now</button>
+
+                </div>
+                <div class="card">
+                    <h5 class="plan-price">₹ 799</h5>
+                    <p>✔ 4GB/Day | 140 Days</p>
+                    <button class="btn btn-recharge" onclick="redirectToPayment(799, '4GB/Day Plan', '140')">Recharge Now</button>
+
+                </div>
+                <div class="card">
+                    <h5 class="plan-price">₹ 899</h5>
+                    <p>✔ 4.5GB/Day | 168 Days</p>
+                    <button class="btn btn-recharge" onclick="redirectToPayment(899, '4.5GB/Day Plan', '168')">Recharge Now</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 MobiComm™ - All Rights Reserved.</p>
+    </footer>
+
+
+<script>
+    function redirectToPayment(amount, plan, validity) {
+        window.location.href = `payment page.html?amount=${amount}&plan=${encodeURIComponent(plan)}&validity=${encodeURIComponent(validity)}`;
+    }
+    </script>
+</body>
+</html>

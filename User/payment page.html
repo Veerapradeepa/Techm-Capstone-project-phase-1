@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - MobiComm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-custom {
+            background-color: #00879E;
+        }
+        .navbar-nav {
+            margin-left: auto;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FFFFFF !important;
+        }
+        .navbar-nav .nav-link {
+            color: #E0F7FA !important;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #FDCB58 !important;
+        }
+        footer {
+            background: #00879E;
+            color: white;
+            text-align: center;
+            margin-top: 150px;
+            padding: 15px;
+        }
+        body 
+        {
+            background-color: #F2F2F2;
+            color: #333333;
+            font-family: "Open Sans", sans-serif;
+
+        }
+        .btn-primary {
+            background-color: #FDCB58;
+            border: none;
+            color: #333333;
+        }
+        .btn-primary:hover {
+            background-color: #FF6B6B;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#">MobiComm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="prepaidDropdown" role="button" data-bs-toggle="dropdown">Prepaid</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="home.html">Recharge</a></li>
+                            <li><a class="dropdown-item" href="prepaid page.html">View Plans</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact page.html">Services</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"><i class="fas fa-user-circle"></i> Profile</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html" data-bs-target="#signInModal">Sign In</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container my-5">
+        <h2 class="text-center"><span>💳</span> Choose Payment Method</h2>
+        <div class="alert alert-info p-3">
+            <h4>Selected Plan Details</h4>
+            <p><strong>Plan:</strong> <span id="planName">-</span></p>
+            <p><strong>Amount:</strong> ₹<span id="planAmount">-</span></p>
+            <p><strong>Validity:</strong> <span id="planValidity">-</span> days</p>
+        </div>
+        <div class="mb-3">
+            <label for="mobileNumber" class="form-label">Mobile Number</label>
+            <input type="tel" id="mobileNumber" class="form-control" placeholder="Enter mobile number" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-control" placeholder="Enter email" required>
+        </div>
+        <button id="proceedToPay" class="btn btn-primary w-100">Proceed to Pay</button>
+    </div>
+    
+    <footer>
+        © 2025 MobiComm. All rights reserved. | <a href="#" class="text-white text-decoration-underline">Privacy Policy | Terms & Conditions</a>
+    </footer>
+    
+    <!-- Bootstrap JS and FontAwesome Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function () {
+            const storedPlan = sessionStorage.getItem("selectedPlan");
+            if (storedPlan) {
+                const planDetails = JSON.parse(storedPlan);
+                document.getElementById("planName").innerText = planDetails.plan || "Not Available";
+                document.getElementById("planAmount").innerText = planDetails.amount || "0";
+                document.getElementById("planValidity").innerText = planDetails.validity || "0";
+            } else {
+                console.error("No plan details found in sessionStorage");
+            }
+        });
+
+        document.getElementById("proceedToPay").addEventListener("click", function () {
+            const mobileNumber = document.getElementById("mobileNumber").value.trim();
+            const email = document.getElementById("email").value.trim();
+            if (!mobileNumber || !email) {
+                alert("Please fill in all required details.");
+                return;
+            }
+            const planAmount = document.getElementById("planAmount").innerText;
+            const planName = document.getElementById("planName").innerText;
+            window.location.href = `pay gateways.html?amount=${planAmount}&plan=${planName}&mobile=${mobileNumber}&email=${email}`;
+        });
+    </script>
+</body>
+</html>

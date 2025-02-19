@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobiComm - FAQ & Policies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body { font-family: "open sans", sans-serif; background: #f5f5f5; }
+        .navbar { background: #077C84; }
+        .navbar .nav-link { color: #FFFFFF; }
+        /* .navbar .nav-link:hover { color: #FDCB58; } */
+
+        .second-navbar { background: #8ccdd5; padding: 10px; }
+        .second-navbar .nav-link { color:black; cursor: pointer; }
+        .second-navbar .nav-link:hover { color: #FFFFFF; }
+
+        /* Full-Screen Sections */
+        .content-container
+         {
+            display: none;
+            padding: 30px;
+            background: #FFFFFF;
+            min-height: 100vh;
+        }
+        .content-container.active { display: block; }
+
+        .content-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #012A2F;
+        }
+
+        .accordion {
+            background: #8ccdd5; /* Matches secondary navbar */
+            color: #333333;
+            cursor: pointer;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+        .accordion:hover { background: #0b4eb2; }
+        .accordion-content {
+            display: none;
+            padding: 10px;
+            background: #f1f1f1;
+            border-left: 3px solid #007bff;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .accordion.active + .accordion-content { display: block; }
+
+        .error-message {
+            color: #FF6B6B;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        footer {
+            background-color: #077C84;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 0px;
+        }
+
+        footer a {
+            color: #FDCB58;
+        }
+
+        .navbar-nav {
+             margin-left: auto;
+         }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            
+            <a class="navbar-brand" href="#">MobiComm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="prepaidDropdown" role="button" data-bs-toggle="dropdown">Prepaid</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="home.html">Recharge</a></li>
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item " href="prepaid page.html">View Plans</a>
+            
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact page.html">Services</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"><i class="fas fa-user-circle"></i> Profile</a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="profile.html"  data-bs-target="#signInModal">Sign In</a></li>
+                            <!-- <li><a class="dropdown-item" href="profile page.html" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a></li>
+                             <li><a class="dropdown-item" href="#">Go to My Account</a></li>
+                            <li><a class="dropdown-item" href="#">Make a Payment</a></li>  -->
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    </nav>
+
+
+    <!-- Second Navbar -->
+    <nav class="navbar navbar-expand-lg second-navbar">
+        <div class="container">
+            <ul class="navbar-nav mx-auto">
+                <!-- FAQ Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">FAQ</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item content-trigger" data-target="general">General</a></li>
+                        <li><a class="dropdown-item content-trigger" data-target="my-account">My Account</a></li>
+                        <li><a class="dropdown-item content-trigger" data-target="recharges">Recharges</a></li>
+                        <li><a class="dropdown-item content-trigger" data-target="refunds">Refunds</a></li>
+                    </ul>
+                </li>
+
+                <!-- Terms, Conditions & Policies Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Terms, Conditions & Policies</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item content-trigger" data-target="terms">Terms & Conditions</a></li>
+                        <li><a class="dropdown-item content-trigger" data-target="privacy">Privacy Policy</a></li>
+                        <li><a class="dropdown-item content-trigger" data-target="refund-policy">Refund Policy</a></li>
+                    </ul>
+                </li>
+
+                <!-- Contact Us -->
+         
+            <li class="nav-item"><a class="nav-link content-trigger" data-target="contact-form" href="#">Contact Us</a></li>
+
+        </div>
+    </nav>
+
+    <!-- FAQ Sections -->
+    <div id="general" class="content-container active">
+        <div class="content-title">General FAQ</div>
+        <button class="accordion">What is a prepaid mobile recharge?</button>
+        <div class="accordion-content">Prepaid recharge allows you to add balance to your mobile number in advance.</div>
+
+        <button class="accordion">How can I check my prepaid balance?</button>
+        <div class="accordion-content">You can check your balance by dialing *123# or using the mobile app.</div>
+
+        <button class="accordion">What is the validity of a prepaid plan?</button>
+        <div class="accordion-content">The validity of the prepaid plan varies based on the plan you choose; check the details in the plan section.</div>
+
+        <button class="accordion">Can I change my prepaid plan?</button>
+        <div class="accordion-content">Yes, you can switch plans anytime, subject to availability.</div>
+    </div>
+
+    <div id="my-account" class="content-container">
+        <div class="content-title">My Account FAQ</div>
+        <button class="accordion">How do I create an account?</button>
+        <div class="accordion-content">Click sign-up, enter details, and verify your number.</div>
+
+        <button class="accordion">How do I recover my password?</button>
+        <div class="accordion-content">Click 'Forgot Password' on the login page and follow the instructions.</div>
+
+        <button class="accordion">Can I update my account details?</button>
+        <div class="accordion-content">Yes, you can update your name, email, and mobile number in your profile section.</div>
+
+        <button class="accordion">How do I deactivate my account?</button>
+        <div class="accordion-content">You can deactivate your account by contacting customer support.</div>
+    </div>
+
+    <div id="recharges" class="content-container">
+        <div class="content-title">Recharges FAQ</div>
+        <button class="accordion">What are the available recharge plans?</button>
+        <div class="accordion-content">Check the 'Recharges' section for the latest plans.</div>
+
+        <button class="accordion">Can I recharge with a different payment method?</button>
+        <div class="accordion-content">Yes, we support UPI, Debit/Credit Cards, and Bank Transfers.</div>
+
+        <button class="accordion">How do I know if my recharge was successful?</button>
+        <div class="accordion-content">You will receive a confirmation message on your mobile number once the recharge is successful.</div>
+
+        <button class="accordion">Can I recharge a number that is not in my account?</button>
+        <div class="accordion-content">Yes, you can recharge any number, even if it's not registered in your account.</div>
+    </div>
+
+    <div id="refunds" class="content-container">
+        <div class="content-title">Refunds FAQ</div>
+        <button class="accordion">How can I request a refund?</button>
+        <div class="accordion-content">Refunds can be requested from 'My Transactions' if the recharge failed.</div>
+
+        <button class="accordion">What is the refund policy?</button>
+        <div class="accordion-content">Refunds are provided only for failed transactions and must be requested within 7 days.</div>
+
+        <button class="accordion">How long does it take to process a refund?</button>
+        <div class="accordion-content">Refunds are usually processed within 3 to 5 business days.</div>
+
+        <button class="accordion">What if I don't receive my refund?</button>
+        <div class="accordion-content">If you haven't received your refund after 5 business days, contact customer support.</div>
+    </div>
+
+    <!-- Terms & Conditions Section -->
+    <div id="terms" class="content-container">
+        <div class="content-title">Terms & Conditions</div>
+        <button class="accordion">What are the terms for prepaid recharges?</button>
+        <div class="accordion-content">Recharges are non-refundable and can only be refunded under specific conditions.</div>
+        <button class="accordion">Are there any limitations on prepaid recharge?</button>
+        <div class="accordion-content">Yes, recharges are subject to fair usage policies and valid for a limited time.</div>
+    </div>
+
+    <!-- Privacy Policy Section -->
+    <div id="privacy" class="content-container">
+        <div class="content-title">Privacy Policy</div>
+        <button class="accordion">How do you protect my data?</button>
+        <div class="accordion-content">We use encryption and secure servers to protect your personal information.</div>
+        <button class="accordion">Do you share my data with third parties?</button>
+        <div class="accordion-content">No, we do not share your data with third parties without your consent.</div>
+    </div>
+
+    <!-- Refund Policy Section -->
+    <div id="refund-policy" class="content-container">
+        <div class="content-title">Refund Policy</div>
+        <button class="accordion">How do I request a refund for a failed transaction?</button>
+        <div class="accordion-content">You can request a refund within 7 days for failed transactions by contacting customer support.</div>
+    </div>
+
+    <!-- Contact Us Section -->
+    <div id="contact-form" class="content-container">
+        <div class="container">
+            <div class="contact-form mt-4">
+                <h3>Contact Us</h3>
+                <form id="contactForm">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name">
+                        <div class="error-message" id="nameError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mobile Number</label>
+                        <input type="text" class="form-control" id="mobile">
+                        <div class="error-message" id="mobileError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email">
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Summary of Your Problem</label>
+                        <textarea class="form-control" rows="3" id="summary"></textarea>
+                        <div class="error-message" id="summaryError"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white text-center p-3 mt-4">
+        &copy; 2025 MobiComm Services | <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a>
+    </footer>
+
+    <script>
+        // Show selected content section in full screen
+        document.querySelectorAll('.content-trigger').forEach(item => {
+            item.addEventListener('click', function() {
+                // Hide all sections
+                document.querySelectorAll('.content-container').forEach(sec => sec.classList.remove('active'));
+
+                // Show selected section
+                document.getElementById(this.dataset.target).classList.add('active');
+            });
+        });
+
+        // Accordion functionality
+        document.querySelectorAll('.accordion').forEach(acc => {
+            acc.addEventListener('click', function() {
+                this.classList.toggle('active');
+                let content = this.nextElementSibling;
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+
+<script>
+    // Show selected content section
+    document.querySelectorAll('.content-trigger').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.content-container').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(this.dataset.target).classList.add('active');
+        });
+    });
+
+    // Contact form validation
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        let valid = true;
+        // Clear previous error messages
+        document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+        
+        // Validate Name
+        const name = document.getElementById('name').value;
+        if (name === '') {
+            document.getElementById('nameError').textContent = 'Name is required';
+            valid = false;
+        }
+
+        // Validate Mobile Number
+        const mobile = document.getElementById('mobile').value;
+        const mobilePattern = /^[0-9]{10}$/;
+        if (!mobilePattern.test(mobile)) {
+            document.getElementById('mobileError').textContent = 'Please enter a valid 10-digit mobile number';
+            valid = false;
+        }
+
+        // Validate Email
+        const email = document.getElementById('email').value;
+        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+        if (!emailPattern.test(email)) {
+            document.getElementById('emailError').textContent = 'Please enter a valid email address';
+            valid = false;
+        }
+
+        // Validate Address
+        const address = document.getElementById('address').value;
+        if (address === '') {
+            document.getElementById('addressError').textContent = 'Address is required';
+            valid = false;
+        }
+
+        // Validate Summary
+        const summary = document.getElementById('summary').value;
+        if (summary === '') {
+            document.getElementById('summaryError').textContent = 'Please provide a summary of your problem';
+            valid = false;
+        }
+
+        // Submit if valid
+        if (valid) {
+            alert('Form submitted successfully!');
+            // You can send the data to your server here
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('.dropdown-submenu > a').forEach(el => {
+        el.addEventListener('click', function (e) {
+            let submenu = this.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('show');
+                e.stopPropagation();
+            }
+        });
+    });
+
+    // Hide submenus when clicking elsewhere
+    document.addEventListener('click', function (e) {
+        document.querySelectorAll('.dropdown-menu .show').forEach(el => {
+            if (!el.contains(e.target)) {
+                el.classList.remove('show');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

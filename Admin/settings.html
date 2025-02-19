@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Settings - Prepaid Mobile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #ecf0f1;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    /* Navbar Styling */
+    .navbar {
+      background-color: #2c3e50;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    .navbar-brand {
+      color: white;
+      font-weight: bold;
+    }
+    .navbar .navbar-nav .nav-link {
+      color: white;
+    }
+    .navbar .navbar-nav .nav-link:hover {
+      color: #ecf0f1;
+    }
+    /* Sidebar Styling */
+    .sidebar {
+      background: #2c3e50;
+      color: white;
+      height: 100vh;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 40px;
+      overflow-y: auto;
+      z-index: 900;
+      text-align: center;
+      margin-top:60px;
+    }
+    .sidebar a {
+      color: #fff !important;
+      padding: 10px;
+      text-decoration: none;
+      display: block;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .sidebar a:hover {
+      background-color: #34495e !important;
+      border-radius: 5px;
+    }
+    .sidebar,h4{
+            color: white;
+            /* margin-top:30px; */
+        }
+
+        .sidebar h4 {
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sidebar ul {
+            padding: 0;
+            margin-top: 40px;
+        }
+
+        .sidebar li {
+            list-style: none;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sidebar li:hover {
+            background: #1a252f;
+            cursor: pointer;
+        }
+    /* Main Content Styling */
+    .content {
+      margin-left: 250px;
+      padding: 20px;
+      margin-top: 70px; /* Leaves space for navbar */
+      width: calc(100% - 250px);
+    }
+    /* Card Styles for Settings Sections */
+    .card {
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .card-header {
+      background-color: #f8f9fa;
+      font-weight: bold;
+      color: #333;
+      padding: 10px 20px;
+    }
+    .card-body {
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    /* Ensure equal height for side-by-side cards */
+    .equal-card {
+      min-height: 350px;
+    }
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .content {
+        margin-left: 0;
+        width: 100%;
+      }
+      .form-column {
+        flex-direction: column;
+      }
+      .form-column > div {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">MobiComm Admin</a>
+    <div class="ms-auto d-flex align-items-center">
+      <!-- Search Bar -->
+      <input class="form-control me-2 search-bar" type="search" placeholder="Search..." aria-label="Search">
+      <!-- Account Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          Account
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+          <li><a class="dropdown-item" href="account.html">Profile</a></li>
+          <li><a class="dropdown-item" href="account.html">Logout</a></li>
+          <i class='bx bxs-bell'></i>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+   <!-- Sidebar -->
+   <div class="sidebar">
+    <h4 class="text-center">Admin Panel</h4>
+    <ul class="list-unstyled">
+      <li><a href="user management.html">User Management</a></li>
+      <li><a href="recharge management.html">Recharge Management</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <h2 class="text-center">Admin Settings</h2>
+    <!-- Settings Cards Container -->
+    <div class="container my-4">
+      <div class="row">
+        <!-- General Settings Card -->
+        <div class="col-md-6">
+          <div class="card equal-card mb-4">
+            <div class="card-header">General Settings</div>
+            <div class="card-body">
+              <form id="generalSettingsForm">
+                <div class="mb-3">
+                  <label for="companyName" class="form-label">Company Name</label>
+                  <input type="text" class="form-control" id="companyName" placeholder="Enter company name">
+                </div>
+                <div class="mb-3">
+                  <label for="contactEmail" class="form-label">Contact Email</label>
+                  <input type="email" class="form-control" id="contactEmail" placeholder="Enter contact email">
+                </div>
+                <button type="submit" class="btn btn-success w-100">Save General Settings</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Security Settings Card -->
+        <div class="col-md-6">
+          <div class="card equal-card mb-4">
+            <div class="card-header">Security Settings</div>
+            <div class="card-body">
+              <form id="securitySettingsForm">
+                <div class="mb-3">
+                  <label for="currentPassword" class="form-label">Current Password</label>
+                  <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+                </div>
+                <div class="mb-3">
+                  <label for="newPassword" class="form-label">New Password</label>
+                  <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                </div>
+                <!-- <div class="mb-3">
+                  <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                  <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+                </div> -->
+                <button type="submit" class="btn btn-warning w-100">Update Password</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Payment Settings Card -->
+        <div class="col-md-6">
+          <div class="card equal-card mb-4">
+            <div class="card-header">Payment Settings</div>
+            <div class="card-body">
+              <form id="paymentSettingsForm">
+                <div class="mb-3">
+                  <label for="defaultPaymentMode" class="form-label">Default Payment Mode</label>
+                  <select class="form-control" id="defaultPaymentMode">
+                    <option value="credit">Credit Card</option>
+                    <option value="debit">Debit Card</option>
+                    <option value="upi">UPI</option>
+                    <option value="netbanking">Net Banking</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="paymentGateway" class="form-label">Payment Gateway</label>
+                  <input type="text" class="form-control" id="paymentGateway" placeholder="Enter payment gateway">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Save Payment Settings</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Notification Settings Card -->
+        <div class="col-md-6">
+          <div class="card equal-card mb-4">
+            <div class="card-header">Notification Settings</div>
+            <div class="card-body">
+              <form id="notificationSettingsForm">
+                <div class="mb-3">
+                  <label for="notificationEmail" class="form-label">Notification Email</label>
+                  <input type="email" class="form-control" id="notificationEmail" placeholder="Enter notification email">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Enable SMS Notifications</label>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="smsNotifications">
+                    <label class="form-check-label" for="smsNotifications">Enable</label>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-info w-100">Save Notification Settings</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Event listeners for settings forms (replace with your own logic as needed)
+    document.getElementById("generalSettingsForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("General Settings Saved!");
+      // Insert your logic here (e.g., AJAX call to update settings in the backend)
+    });
+    document.getElementById("securitySettingsForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      if(newPassword !== confirmPassword) {
+        alert("Passwords do not match!");
+      } else {
+        alert("Password Updated!");
+      }
+      // Insert your logic here
+    });
+    document.getElementById("paymentSettingsForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Payment Settings Saved!");
+      // Insert your logic here
+    });
+    document.getElementById("notificationSettingsForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Notification Settings Saved!");
+      // Insert your logic here
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prepaid Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: #2c3e50;
+            padding: 10px 20px;
+        }
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #f39c12;
+        }
+        .form-control {
+            width: 250px;
+        }
+/* 
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            background: #2c3e50;
+            padding-top: 20px;
+        } */
+
+        
+        /* Sidebar Styling */
+        .sidebar {
+      background: #2c3e50;
+      color: white;
+      height: 100vh;
+      width: 250px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 40px;
+      overflow-y: auto;
+      z-index: 900;
+      text-align: center;
+      margin-top:60px;
+    }
+        .sidebar a {
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .sidebar a:hover {
+            background: #1a252f;
+        }
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            height: 100%;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .card-body {
+            text-align: center;
+            padding: 30px;
+        }
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .card-icon {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .active-card {
+            background: #3498db;
+            color: white;
+        }
+        .status-card {
+            background: #2eccbc;
+            color: white;
+        }
+        .popular-plans-card {
+            background: #2eccbc;
+            color: white;
+        }
+        .year-usage-card {
+            color: rgb(239, 238, 238);
+        }
+        .status-chart-container {
+            position: relative;
+            height: 200px;
+            width: 200px;
+            margin: 0 auto;
+        }
+        .card-footer {
+            text-align: center;
+            font-weight: bold;
+            background: #f8f9fa;
+            padding: 10px;
+            color: black;
+        }
+        table th, table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-top: 10px;
+        }
+        .status-indicator.good { background-color: #2ecc71; }
+        .status-indicator.bad { background-color: #e74c3c; }
+        .pagination-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .row .col-md-6 {
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .navbar {
+            background: #3068a0;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+
+        /* Adjust main content to prevent overlap */
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            margin-top: 80px;
+        }
+
+        /* Ensure that the table and other elements are also adjusted */
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .navbar, .sidebar {
+           background: #2c3e50;
+         }
+
+        .sidebar,h4{
+            color: white;
+            /* margin-top:30px; */
+        }
+
+        .sidebar h4 {
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .sidebar ul {
+            padding: 0;
+            margin-top: 40px;
+        }
+
+        .sidebar li {
+            list-style: none;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sidebar li:hover {
+            background: #1a252f;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">MobiComm Admin</a>
+        <div class="ms-auto d-flex align-items-center">
+        
+            <!-- <h4 href="admin Login.html">Home</h4> -->
+
+
+            <!-- Search Bar -->
+            <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+            <!-- Account Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Account
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                    <li><a class="dropdown-item" href="account.html">Profile</a></li>
+                    <li><a class="dropdown-item" href="account.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+     <!-- Sidebar -->
+  <div class="sidebar">
+    <h4 class="text-center">Admin Panel</h4>
+    <ul class="list-unstyled">
+      <li><a href="user management.html">User Management</a></li>
+      <li><a href="recharge management.html">Recharge Management</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+  </div>
+
+    <div class="main-content">
+        <!-- <h2>Dashboard Overview</h2> -->
+
+        <!--  List of Subscribers using MobiComm -->
+        <h3>List of Subscribers using MobiComm</h3>
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Plan</th>
+                        <th>Expiry Date</th>
+                        <th>Mode of Payment</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="subscriberList">
+                    <!-- Dynamic data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <button class="btn btn-primary" id="loadMoreBtn">Load More</button>
+        </div>
+
+        <br><br>
+
+        <!-- Dashboard Cards (2x2 Grid) -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card active-card">
+                    <div class="card-body">
+                        <div class="card-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+                        <h5 class="card-title">Active Subscribers</h5>
+                        <p id="activeSubscribersCount" class="card-text">Loading...</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">Updated Now</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Daily Status Check</h5>
+                        <div class="status-chart-container">
+                            <canvas id="statusPieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card-footer">Last Checked: Today</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card popular-plans-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Popular Plans</h5>
+                        <ul id="popularPlansList" class="list-group">
+                            <!-- Dynamic plans will be inserted here -->
+                        </ul>
+                    </div>
+                    <div class="card-footer">Most Used</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card year-usage-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Year-to-Year Usage</h5>
+                        <canvas id="yearUsageChart"></canvas>
+                    </div>
+                    <div class="card-footer">Annual Usage Starts</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recharge History Modal -->
+        <div class="modal fade" id="rechargeHistoryModal" tabindex="-1" aria-labelledby="rechargeHistoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rechargeHistoryModalLabel">Recharge History</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Plan</th>
+                                    <th>Date</th>
+                                    <th>Mode of Payment</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rechargeHistoryContent">
+                                <!-- Recharge history data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Sample Data
+        let subscribers = [
+            {name: "John Doe", plan: "Unlimited 28 Days", expiry: "2025-02-20", paymentMode: "Credit Card", history: [{plan: "Unlimited 28 Days", date: "2024-12-01", paymentMode: "Credit Card"}]},
+            {name: "Alice Smith", plan: "Data 5GB 30 Days", expiry: "2025-02-21", paymentMode: "Debit Card", history: [{plan: "Data 5GB 30 Days", date: "2024-11-15", paymentMode: "Debit Card"}]},
+            {name: "Bob Johnson", plan: "Talktime 1000 Mins", expiry: "2025-02-22", paymentMode: "Net Banking", history: [{plan: "Talktime 1000 Mins", date: "2024-10-20", paymentMode: "Net Banking"}]}
+        ];
+    
+        let activeSubscribers = 320;
+        let popularPlans = [
+            {plan: "Unlimited 28 Days", usage: 250},
+            {plan: "Data 5GB 30 Days", usage: 180},
+            {plan: "Talktime 1000 Mins", usage: 120}
+        ];
+        let yearUsageData = [400, 350, 420, 380, 450];
+    
+        // Load Active Subscribers Count
+        function loadActiveSubscribers() {
+            document.getElementById("activeSubscribersCount").textContent = activeSubscribers;
+        }
+    
+        // Load Daily Status Pie Chart
+        function loadDailyStatus() {
+            var ctx = document.getElementById('statusPieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Operational', 'Issue'],
+                    datasets: [{
+                        data: [95, 5],
+                        backgroundColor: ['#2ecc71', '#e74c3c'],
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+    
+        // Load Popular Plans
+        function loadPopularPlans() {
+            let plansList = document.getElementById("popularPlansList");
+            popularPlans.forEach(plan => {
+                let listItem = document.createElement("li");
+                listItem.classList.add("list-group-item");
+                listItem.textContent = `${plan.plan} - ${plan.usage} users`;
+                plansList.appendChild(listItem);
+            });
+        }
+
+        // Load Year Usage Chart
+        function loadYearUsage() {
+            var ctx = document.getElementById('yearUsageChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    datasets: [{
+                        label: 'Yearly Usage',
+                        data: yearUsageData,
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        borderWidth: 2
+                    }]
+                }
+            });
+        }
+
+        // Load Subscribers List
+        function loadSubscribers() {
+            let subscriberList = document.getElementById("subscriberList");
+            subscribers.forEach(subscriber => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${subscriber.name}</td>
+                    <td>${subscriber.plan}</td>
+                    <td>${subscriber.expiry}</td>
+                    <td>${subscriber.paymentMode}</td>
+                    <td><button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#rechargeHistoryModal" onclick="showRechargeHistory(${subscribers.indexOf(subscriber)})">View</button></td>
+                `;
+                subscriberList.appendChild(row);
+            });
+        }
+
+        // Show Recharge History
+        function showRechargeHistory(index) {
+            let historyContent = document.getElementById("rechargeHistoryContent");
+            historyContent.innerHTML = '';
+            subscribers[index].history.forEach(record => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${record.plan}</td>
+                    <td>${record.date}</td>
+                    <td>${record.paymentMode}</td>
+                `;
+                historyContent.appendChild(row);
+            });
+        }
+
+        // Load More Subscribers
+        function loadMoreSubscribers() {
+            subscribers.push({name: "Sam White", plan: "Unlimited 30 Days", expiry: "2025-02-25", paymentMode: "Debit Card", history: [{plan: "Unlimited 30 Days", date: "2024-12-10", paymentMode: "Debit Card"}]});
+            loadSubscribers();
+        }
+
+        // Initialize Dashboard
+        window.onload = function() {
+            loadActiveSubscribers();
+            loadDailyStatus();
+            loadPopularPlans();
+            loadYearUsage();
+            loadSubscribers();
+    
+            document.getElementById("loadMoreBtn").addEventListener("click", loadMoreSubscribers);
+        };
+    </script>
+
+</body>
+</html>
