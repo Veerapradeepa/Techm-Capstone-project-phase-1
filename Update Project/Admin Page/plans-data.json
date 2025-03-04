@@ -1,0 +1,32 @@
+{
+    "plans": {
+      "popular": [
+        { "name": "Basic Plan", "price": "₹199/month", "validity": "28 Days", "data": "2GB/day", "calls": "Unlimited", "sms": "100/day" },
+        { "name": "Standard Plan", "price": "₹299/month", "validity": "28 Days", "data": "3GB/day", "calls": "Unlimited", "sms": "150/day" },
+        { "name": "Premium Plan", "price": "₹499/month", "validity": "56 Days", "data": "4GB/day", "calls": "Unlimited", "sms": "200/day" },
+        { "name": "Gold Plan", "price": "₹699/month", "validity": "84 Days", "data": "5GB/day", "calls": "Unlimited", "sms": "300/day" },
+        { "name": "Diamond Plan", "price": "₹999/month", "validity": "365 Days", "data": "6GB/day", "calls": "Unlimited", "sms": "500/day" },
+        { "name": "Platinum Plan", "price": "₹1499/month", "validity": "365 Days", "data": "10GB/day", "calls": "Unlimited", "sms": "1000/day" }
+      ],
+      "data": [
+        { "name": "Daily Data", "price": "₹99", "validity": "1 Day", "data": "2GB", "sms": "0", "calls": "NA" },
+        { "name": "Quarter Data", "price": "₹499", "validity": "90 Days", "data": "3GB/Day", "sms": "100 SMS/Day", "calls": "Unlimited", "offer": "YouTube Premium" },
+        { "name": "Half-Yearly Data", "price": "₹799", "validity": "180 Days", "data": "5GB/Day", "sms": "Unlimited", "calls": "Unlimited", "offer": "Disney+ Hotstar" }
+      ],
+      "hero unlimited": [
+        { "name": "Hero Basic", "price": "₹399", "validity": "84 Days", "data": "1.5GB/Day", "sms": "100 SMS/Day", "calls": "Unlimited", "offer": "Netflix" },
+        { "name": "Hero Plus", "price": "₹699", "validity": "90 Days", "data": "2GB/Day", "sms": "100 SMS/Day", "calls": "Unlimited", "offer": "Amazon Prime" },
+        { "name": "Hero Premium", "price": "₹999", "validity": "365 Days", "data": "3GB/Day", "sms": "Unlimited", "calls": "Unlimited", "offer": "Netflix & Disney+" }
+      ],
+      "validity": [
+        { "name": "Monthly Validity", "price": "₹149", "validity": "28 Days", "data": "NA", "sms": "100 SMS/Day", "calls": "Unlimited", "offer": "Hotstar" },
+        { "name": "Bi-Monthly", "price": "₹299", "validity": "56 Days", "data": "NA", "sms": "100 SMS/Day", "calls": "Unlimited", "offer": "Amazon Prime" },
+        { "name": "Annual Validity", "price": "₹699", "validity": "365 Days", "data": "NA", "sms": "100 SMS/Day", "calls": "Unlimited", "offer": "15% discount" }
+      ],
+      "other": [
+        { "name": "Mini Talktime", "price": "₹50", "validity": "NA", "data": "NA", "sms": "NA", "calls": "₹39 Talktime" },
+        { "name": "Standard Talktime", "price": "₹100", "validity": "NA", "data": "NA", "sms": "NA", "calls": "₹79 Talktime" },
+        { "name": "Mega Talktime", "price": "₹500", "validity": "NA", "data": "NA", "sms": "NA", "calls": "₹420 Talktime" }
+      ]
+    }
+  } 

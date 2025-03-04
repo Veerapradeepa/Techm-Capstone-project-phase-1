@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prepaid App Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #5d0a35; /* Reduced brightness of purple color */
+            --secondary: #ffc107;
+            --bg-light: #fffaf6; /* Soft background for the card */
+            --text-dark: #333333;
+            --text-light: #ffffff;
+
+        }
+        
+        body {
+            /* background-color: #f0f2f5; */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 20px;
+        }
+        
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: var(--text-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .home-btn:hover {
+            background-color: #4a082a;
+            transform: scale(1.05);
+        }
+        
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .badge-custom {
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 50px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+            background-color: var(--bg-light);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: var(--bg-light);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 15px 20px;
+            border-radius: 12px 12px 0 0 !important;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .section-title {
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .progress {
+            height: 10px;
+            border-radius: 50px;
+            background-color: #e9ecef;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            border-radius: 50px;
+        }
+        
+        .data-progress {
+            background-color: var(--primary);
+        }
+        
+        .call-progress {
+            background-color: var(--secondary);
+        }
+        
+        .sms-progress {
+            background-color: var(--primary);
+        }
+        
+        .data-usage-container {
+            height: 250px;
+            margin: 20px 0;
+        }
+        
+        .tab-content {
+            padding-top: 15px;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--text-dark);
+            border: none;
+            padding: 10px 15px;
+            margin-right: 5px;
+            font-weight: 500;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary);
+            background-color: transparent;
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .nav-tabs {
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .quick-action-btn {
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        .quick-action-btn:hover {
+            background-color: var(--bg-light);
+            transform: translateY(-3px);
+        }
+        
+        .quick-action-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #4a082a; /* Darker shade of primary */
+            border-color: #4a082a;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: var(--text-light);
+            transform: translateY(-2px);
+        }
+        
+        .alert {
+            border-radius: 8px;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .user-info-container {
+            background-color: var(--bg-light);
+            border-radius: 12px;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .user-info-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background-color: rgba(93, 10, 53, 0.1);
+            border-radius: 50%;
+            transform: translate(40%, -40%);
+        }
+        
+        .user-info-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(93, 10, 53, 0.1);
+            border-radius: 50%;
+            transform: translate(-30%, 30%);
+        }
+        
+        .app-usage-item {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .app-usage-item:hover {
+            background-color: #e9ecef;
+        }
+        
+        .history-item {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .history-item:hover {
+            background-color: #e9ecef;
+        }
+        
+        .text-primary {
+            color: var(--primary) !important;
+        }
+        
+        .text-secondary {
+            color: var(--secondary) !important;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary) !important;
+        }
+        
+        .bg-secondary {
+            background-color: var(--secondary) !important;
+        }
+        
+        .alert-primary {
+            background-color: rgba(93, 10, 53, 0.1);
+            border-color: rgba(93, 10, 53, 0.2);
+            color: var(--primary);
+        }
+        
+        .alert-success {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-color: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+        
+        /* Improved responsiveness for buttons */
+        @media (max-width: 576px) {
+            .btn {
+                padding: 6px 14px;
+                font-size: 0.9rem;
+            }
+            
+            .quick-action-btn {
+                height: 80px;
+                padding: 5px;
+            }
+            
+            .quick-action-icon {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+            
+            .quick-action-btn span {
+                font-size: 0.8rem;
+            }
+            
+            .home-btn {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                left: 10px;
+            }
+            
+            .home-btn i {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Improve responsiveness for smaller screens */
+        @media (max-width: 768px) {
+            .card-header {
+                padding: 12px 15px;
+            }
+            
+            .card-body {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 1rem;
+            }
+            
+            .profile-img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Button (replaces navbar) -->
+    <a href="home.html" class="home-btn">
+        <i class="bi bi-house-door-fill fs-4"></i>
+    </a>
+
+    <div class="container py-4 mt-4">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3">My Profile</h1>
+            <button class="btn btn-primary" onclick="window.location.href='plans.html';">
+                <i class="bi bi-plus-circle me-1"></i> Quick Recharge
+            </button>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-lg-4">
+                <!-- User Information Area -->
+                <div class="user-info-container d-flex flex-column align-items-center text-center">
+                    <div class="profile-img mb-3">
+                        <i class="bi bi-person fs-1 text-primary"></i>
+                    </div>
+                    <h4 class="mb-1" id="user-name">Pradeepa</h4>
+                    <p class="text-muted mb-1" id="user-phone">+91 9790692678</p>
+                    <p class="text-muted mb-3" id="user-email">pradee@gmail.in</p>
+                    <div class="d-flex gap-2 mb-3 flex-wrap justify-content-center">
+                        <span class="badge-custom bg-opacity-10 text-primary border" id="account-type">Prepaid</span>
+                        <span class="badge-custom bg-opacity-10 text-secondary border" id="plan-name">Ultimate Data Plus</span>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-pencil me-1"></i>Edit Profile
+                    </button>
+                </div>
+                
+                <!-- Additional Features -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="section-title mb-0">Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <button class="quick-action-btn w-100 border-0 shadow-sm">
+                                    <i class="bi bi-bell quick-action-icon"></i>
+                                    <span>Notifications</span>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="quick-action-btn w-100 border-0 shadow-sm">
+                                    <i class="bi bi-gift quick-action-icon"></i>
+                                    <span>Rewards</span>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="quick-action-btn w-100 border-0 shadow-sm">
+                                    <i class="bi bi-question-circle quick-action-icon"></i>
+                                    <span>Support</span>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="quick-action-btn w-100 border-0 shadow-sm">
+                                    <i class="bi bi-arrow-repeat quick-action-icon"></i>
+                                    <span>Auto Recharge</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-success mt-4 mb-0 d-flex align-items-center">
+                            <i class="bi bi-gift fs-4 me-2"></i>
+                            <div>
+                                <strong>250 Reward Points</strong>
+                                <p class="mb-0 small">Redeem them for a 500MB data bonus!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Recharge History -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="section-title mb-0">Recent Recharges</h5>
+                        <button class="btn btn-sm btn-outline-primary">View All</button>
+                    </div>
+                    <div class="card-body" id="recharge-history">
+                        <!-- Recharge items will be inserted here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-8">
+                <!-- Current Plan Details -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                        <h5 class="section-title mb-0">Current Plan</h5>
+                        <span class="badge bg-warning text-dark" id="expiry-days">Expires in 3 days</span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Data Usage Meter -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="fw-bold">Data Balance</span>
+                                <span class="fw-bold text-primary" id="data-remaining">3.2GB / 5GB</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar data-progress" id="data-progress" role="progressbar" style="width: 64%;">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-1 flex-wrap">
+                                <span class="small text-muted">Used: 1.8GB</span>
+                                <span class="small text-muted" id="expiry-date">Valid till: March 15, 2025</span>
+                            </div>
+                        </div>
+
+                        <!-- Daily Usage Graph -->
+                        <div class="data-usage-container">
+                            <canvas id="dailyUsageChart"></canvas>
+                        </div>
+
+                        <!-- Call and SMS Meter -->
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-3">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Call Minutes</span>
+                                            <span class="fw-bold text-secondary" id="call-remaining">120/200</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar call-progress" id="call-progress" role="progressbar" style="width: 60%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-body p-3">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>SMS</span>
+                                            <span class="fw-bold text-primary" id="sms-remaining">50/100</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar sms-progress" id="sms-progress" role="progressbar" style="width: 50%;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Usage Analytics -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="section-title mb-0">Data Usage by Apps</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="app-usage-container">
+                            <!-- App usage items will be inserted here -->
+                        </div>
+                        
+                        <div class="alert alert-primary d-flex align-items-center mt-3">
+                            <i class="bi bi-bell fs-4 me-2"></i>
+                            <div>
+                                <strong>Data usage trend</strong>
+                                <p class="mb-0">You're using data 20% faster than last month. Consider enabling data saver mode.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Previous History Section -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="section-title mb-0">Usage History</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs" id="historyTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">Transactions</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="recharges-tab" data-bs-toggle="tab" data-bs-target="#recharges" type="button" role="tab">Recharges</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="service-tab" data-bs-toggle="tab" data-bs-target="#service" type="button" role="tab">Service</button>
+                            </li>
+                        </ul>
+                        
+                        <!-- Date Filter -->
+                        <div class="d-flex justify-content-between align-items-center my-3 flex-wrap gap-2">
+                            <select class="form-select form-select-sm" style="width: auto;">
+                                <option>Last 30 days</option>
+                                <option>Last 3 months</option>
+                                <option>Last 6 months</option>
+                                <option>Custom range</option>
+                            </select>
+                            
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-download me-1"></i>Download
+                            </button>
+                        </div>
+                        
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="historyTabContent">
+                            <div class="tab-pane fade show active" id="transactions" role="tabpanel">
+                                <!-- Transaction items will be inserted here -->
+                            </div>
+                            
+                            <div class="tab-pane fade" id="recharges" role="tabpanel">
+                                <!-- Recharge history items will be inserted here -->
+                            </div>
+                            
+                            <div class="tab-pane fade" id="service" role="tabpanel">
+                                <!-- Service request items will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+       // Sample data - replace with actual API calls in production
+const userData = {
+    name: "Pradeepa",
+    phone: "+91 9790692678",
+    email: "pradee@gmail.in",
+    accountType: "Prepaid",
+    planName: "Ultimate Data Plus"
+};
+
+const planData = {
+    dataRemaining: 3.2, // GB
+    dataTotal: 5, // GB
+    callMinutesRemaining: 120,
+    callMinutesTotal: 200,
+    smsRemaining: 50,
+    smsTotal: 100,
+    daysRemaining: 12,
+    expiryDate: "March 15, 2025"
+};
+
+const rechargeHistory = [
+    { id: 1, amount: "$20", date: "Feb 24, 2025", planDetails: "2GB Data + Unlimited Calls" },
+    { id: 2, amount: "$30", date: "Jan 28, 2025", planDetails: "5GB Data + Unlimited Calls" }
+];
+
+const usageData = [
+    { day: 'Mon', usage: 0.4 },
+    { day: 'Tue', usage: 0.6 },
+    { day: 'Wed', usage: 0.3 },
+    { day: 'Thu', usage: 0.8 },
+    { day: 'Fri', usage: 0.5 },
+    { day: 'Sat', usage: 0.2 },
+    { day: 'Sun', usage: 0.7 }
+];
+
+const appUsage = [
+    { app: "YouTube", usage: 1.2, icon: "bi-youtube" },
+    { app: "Instagram", usage: 0.8, icon: "bi-instagram" },
+    { app: "Spotify", usage: 0.5, icon: "bi-spotify" },
+    { app: "Chrome", usage: 0.4, icon: "bi-globe" },
+    { app: "Others", usage: 0.3, icon: "bi-three-dots" }
+];
+
+const transactionHistory = [
+    { type: "Data Usage", amount: "-200MB", date: "Mar 1, 2025", time: "2:30 PM", icon: "bi-wifi" },
+    { type: "Voice Call", amount: "-12 min", date: "Feb 28, 2025", time: "5:45 PM", icon: "bi-telephone" },
+    { type: "SMS", amount: "-2 SMS", date: "Feb 28, 2025", time: "3:12 PM", icon: "bi-chat" }
+];
+
+const serviceHistory = [
+    { type: "Network Issue", status: "Resolved", date: "Feb 15, 2025", ticket: "#45781" },
+    { type: "Billing Query", status: "Pending", date: "Feb 10, 2025", ticket: "#45692" }
+];
+
+// Initialize page data
+document.addEventListener('DOMContentLoaded', function() {
+    // Set user information
+    document.getElementById('user-name').textContent = userData.name;
+    document.getElementById('user-phone').textContent = userData.phone;
+    document.getElementById('user-email').textContent = userData.email;
+    document.getElementById('account-type').textContent = userData.accountType;
+    document.getElementById('plan-name').textContent = userData.planName;
+    
+    // Set plan information
+    document.getElementById('data-remaining').textContent = `${planData.dataRemaining}GB / ${planData.dataTotal}GB`;
+    document.getElementById('data-progress').style.width = `${(planData.dataRemaining / planData.dataTotal) * 100}%`;
+    document.getElementById('call-remaining').textContent = `${planData.callMinutesRemaining}/${planData.callMinutesTotal}`;
+    document.getElementById('call-progress').style.width = `${(planData.callMinutesRemaining / planData.callMinutesTotal) * 100}%`;
+    document.getElementById('sms-remaining').textContent = `${planData.smsRemaining}/${planData.smsTotal}`;
+    document.getElementById('sms-progress').style.width = `${(planData.smsRemaining / planData.smsTotal) * 100}%`;
+document.getElementById('expiry-days').textContent = `Expires in ${planData.daysRemaining} days`;
+document.getElementById('expiry-date').textContent = `Valid till: ${planData.expiryDate}`;
+
+// Populate recharge history
+const rechargeHistoryContainer = document.getElementById('recharge-history');
+rechargeHistory.forEach(item => {
+    const historyItem = document.createElement('div');
+    historyItem.className = 'history-item';
+    historyItem.innerHTML = `
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <h6 class="mb-1">${item.amount}</h6>
+                <p class="text-muted mb-0 small">${item.planDetails}</p>
+            </div>
+            <span class="text-muted small">${item.date}</span>
+        </div>
+    `;
+    rechargeHistoryContainer.appendChild(historyItem);
+});
+
+// Populate app usage
+const appUsageContainer = document.getElementById('app-usage-container');
+appUsage.forEach(item => {
+    const appItem = document.createElement('div');
+    appItem.className = 'app-usage-item';
+    appItem.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class="bi ${item.icon} fs-4 me-3 text-primary"></i>
+                <span>${item.app}</span>
+            </div>
+            <span class="fw-bold">${item.usage} GB</span>
+        </div>
+        <div class="progress mt-2" style="height: 6px;">
+            <div class="progress-bar data-progress" role="progressbar" style="width: ${(item.usage / appUsage[0].usage) * 100}%;"></div>
+        </div>
+    `;
+    appUsageContainer.appendChild(appItem);
+});
+
+// Populate transactions tab
+const transactionsTab = document.getElementById('transactions');
+transactionHistory.forEach(item => {
+    const transactionItem = document.createElement('div');
+    transactionItem.className = 'history-item';
+    transactionItem.innerHTML = `
+        <div class="d-flex justify-content-between align-items-start">
+            <div class="d-flex align-items-start">
+                <div class="bg-light p-2 rounded-circle me-3">
+                    <i class="${item.icon} text-primary"></i>
+                </div>
+                <div>
+                    <h6 class="mb-1">${item.type}</h6>
+                    <p class="text-muted mb-0 small">${item.date}, ${item.time}</p>
+                </div>
+            </div>
+            <span class="text-danger">${item.amount}</span>
+        </div>
+    `;
+    transactionsTab.appendChild(transactionItem);
+});
+
+// Populate recharges tab
+const rechargesTab = document.getElementById('recharges');
+rechargeHistory.forEach(item => {
+    const rechargeItem = document.createElement('div');
+    rechargeItem.className = 'history-item';
+    rechargeItem.innerHTML = `
+        <div class="d-flex justify-content-between align-items-start">
+            <div class="d-flex align-items-start">
+                <div class="bg-light p-2 rounded-circle me-3">
+                    <i class="bi bi-cash text-success"></i>
+                </div>
+                <div>
+                    <h6 class="mb-1">Recharge</h6>
+                    <p class="text-muted mb-0 small">${item.date}</p>
+                </div>
+            </div>
+            <span class="text-success">${item.amount}</span>
+        </div>
+        <p class="text-muted small mt-2 mb-0">${item.planDetails}</p>
+    `;
+    rechargesTab.appendChild(rechargeItem);
+});
+
+// Populate service tab
+const serviceTab = document.getElementById('service');
+serviceHistory.forEach(item => {
+    const serviceItem = document.createElement('div');
+    serviceItem.className = 'history-item';
+    const statusClass = item.status === 'Resolved' ? 'text-success' : 'text-warning';
+    serviceItem.innerHTML = `
+        <div class="d-flex justify-content-between align-items-start">
+            <div class="d-flex align-items-start">
+                <div class="bg-light p-2 rounded-circle me-3">
+                    <i class="bi bi-headset text-primary"></i>
+                </div>
+                <div>
+                    <h6 class="mb-1">${item.type}</h6>
+                    <p class="text-muted mb-0 small">${item.date}, Ticket: ${item.ticket}</p>
+                </div>
+            </div>
+            <span class="${statusClass}">${item.status}</span>
+        </div>
+    `;
+    serviceTab.appendChild(serviceItem);
+});
+
+// Initialize Chart.js for Daily Usage
+const ctx = document.getElementById('dailyUsageChart').getContext('2d');
+const dailyUsageChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: usageData.map(data => data.day),
+        datasets: [{
+            label: 'Daily Data Usage (GB)',
+            data: usageData.map(data => data.usage),
+            backgroundColor: '#e4abc8',
+            borderRadius: 5
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1,
+                ticks: {
+                    callback: function(value) {
+                        return value + ' GB';
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.parsed.y + ' GB';
+                    }
+                }
+            }
+        }
+    }
+});
+});
+    </script>
+    
+    

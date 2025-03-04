@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secondary Navbar</title>
+  
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Great+Vibes&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      /* You can adjust these if you like */
+      --primary: #880e4f;
+      --secondary: #ffc107;
+      --bg-light: #fffaf6; /* Soft background for the card */
+      --text-dark: #333333;
+      --text-light: #ffffff;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+
+    /* Main Navbar */
+    .navbar {
+      background-color: var(--primary);
+      padding: 5px 5px;
+      border-radius: 50px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-logo {
+      font-family: 'Great Vibes', cursive;
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* .navbar.scrolled 
+    {
+            border-radius: 0;
+            padding: 3px 3px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        } */
+
+    /* Profile Icon */
+    .profile-icon {
+      border-radius: 50%;
+      border: none;
+      background: none;
+    }
+
+    /* Secondary Navbar */
+    .secnavbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background: #fff;
+      padding: 10px 20px;
+      border-radius: 15px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 60px;
+      z-index: 999;
+    }
+
+    .secnav-item {
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #b0b0b0;
+      cursor: pointer;
+      text-transform: capitalize;
+      transition: all 0.3s ease;
+    }
+
+    /* Hover & Active State */
+    .secnav-item.active,
+    .secnav-item:hover {
+      background: white;
+      color: #000;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+
+    /* Container spacing to place it lower from secnavbar */
+    #plans-section {
+      margin-top: 50px; /* Adjust as needed for more or less spacing */
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      text-align: center;
+      margin: 0 auto; /* Center the container */
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+
+    }
+
+    .plans {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .plan-card {
+      background: var(--bg-light);
+      color: var(--text-dark);
+      padding: 20px;
+      border: 1px solid #ddd;  
+      border-radius: 20px;    
+      width: 300px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .plan-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .plan-header {
+      background: var(--primary);
+      padding: 10px 20px;
+      border-radius: 15px 15px 0 50px;
+      font-weight: bold;
+      font-size: 1.4rem;
+      color: var(--text-light);
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin: 10px 0;
+    }
+
+    .features {
+      margin: 15px 0;
+      padding-left: 10px;
+    }
+    .features li 
+    {
+      list-style: none;
+      padding: 5px 0;
+    }
+
+    .ott-badges 
+    {
+      display: flex;
+      align-items: center; 
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .plus-sign {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--text-dark);
+    }
+    .ott-badges img {
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+    .cta-button {
+      padding: 10px 15px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+      border: none;
+      cursor: pointer;
+      background: var(--secondary);
+      color: var(--text-dark);
+    }
+    .cta-button:hover {
+      background: #ffb400;
+    }
+
+    .details-text {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333333;
+      cursor: pointer;
+      text-decoration: underline;
+      display: block;
+      margin-top: 15px;
+    }
+
+    .search-container 
+    {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+    .search-container input 
+    {
+                width: 300px;
+                margin-right: 10px;
+    }
+
+    /* MODAL STYLES - FROM FIRST FILE */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .modal-container {
+      background-color: white;
+      width: 85%;
+      max-width: 400px;
+      border-radius: 8px;
+      position: relative;
+      padding: 0;
+      overflow: hidden;
+    }
+    
+    .modal-close {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #333;
+      z-index: 10;
+    }
+    
+    .modal-content {
+      padding: 20px;
+    }
+    
+    .modal-title {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #222;
+      text-align: center;
+    }
+    
+    .modal-price {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    
+    .subscriptions {
+      margin-bottom: 18px;
+    }
+    
+    .subscription-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .subscription-logos {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .subscription-logo {
+      width: 50px;
+      height: 50px;
+      background-color: #111;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .subscription-logo img {
+      max-width: 80%;
+      max-height: 80%;
+    }
+    
+    .benefits-section {
+      margin-bottom: 18px;
+    }
+    
+    .benefits-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .benefits-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    
+    .benefits-table tr {
+      border-bottom: 1px solid #eee;
+    }
+    
+    .benefits-table tr:last-child {
+      border-bottom: none;
+    }
+    
+    .benefits-table td {
+      padding: 8px 0;
+    }
+    
+    .benefits-table td:last-child {
+      text-align: right;
+      font-weight: 600;
+    }
+    
+    .additional-benefits {
+      margin-bottom: 18px;
+    }
+    
+    .additional-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    
+    .checkmark {
+      color: green;
+      margin-right: 8px;
+    }
+    
+    .buy-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .buy-btn:hover {
+      background-color: #6a1951;
+    }
+
+    /* Hide all plan sections by default */
+    .plan-section {
+      display: none;
+    }
+
+    /* Show active section */
+    .plan-section.active {
+      display: block;
+    }
+
+    .footer {
+            background-color: #880E4F;
+            color: white;
+    width: 100vw; /* Use viewport width instead of percentage */
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%); /* Center the footer and ensure full width */
+    margin-right: calc(-50vw + 50%);
+    padding: 40px 0;
+}
+
+.footer .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.footer .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+}
+.footer .col-lg-3 {
+    flex: 0 0 auto;
+    width: 15%;
+    margin-left:100px;
+}
+
+.footer-title {
+    font-weight: 600;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background-color: white;
+    bottom: -10px;
+    left: 0;
+}
+
+.footer-text 
+{
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.footer ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer ul li {
+    margin-bottom: 8px;
+}
+
+.footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    margin-top: 20px; 
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #FFD700;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 30px 0;
+    }
+    
+    .footer .container {
+        padding: 0 15px;
+    }
+    
+    .footer-text {
+        font-size: 13px;
+    }
+    
+    .social-icons {
+        gap: 10px;
+    }
+}
+
+  </style>
+</head>
+<body>
+  <!-- Main Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <span class="navbar-logo">Mobi-Comm</span>
+
+      <button
+        class="navbar-toggler ms-auto"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="home.html">Recharge</a></li>
+          <li class="nav-item"><a class="nav-link active" href="plans1.html">Prepaid</a></li>
+          <li class="nav-item"><a class="nav-link" href="discover.html">Discover</a></li>
+          <li class="nav-item"><a class="nav-link" href="support2.html">Support</a></li>
+        </ul>
+      </div>
+
+      
+      <div class="dropdown ms-3">
+        <a href="profile.html">
+            <i class="bi bi-person-circle" style="font-size: 50px; color:white;"></i>
+        </a>
+    </div>
+    </div>
+  </nav>
+
+  <!-- Secondary Navbar -->
+  <div class="secnavbar">
+    <div class="secnav-item active" data-category="popular">Popular Plans</div>
+    <div class="secnav-item" data-category="data">Data</div>
+    <div class="secnav-item" data-category="hero unlimited">Hero Unlimited</div>
+    <div class="secnav-item" data-category="validity">Validity Plans</div>
+    <div class="secnav-item" data-category="other">Others</div>
+  </div>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search by data, validity, price..." onkeyup="filterPlans()">
+    <button class="btn btn-primary" id="searchBtn">🔍</button>
+  </div>
+
+  <!-- Plans Section (lower from secnavbar) -->
+  <section id="plans-section">
+    <div class="container">
+      <!-- Popular Plans Section -->
+      <div id="popular-section" class="plan-section active">
+        <h1>Popular Plans</h1>
+        <div class="plans" id="popular-plans-container"></div>
+      </div>
+
+      <!-- Data Plans Section -->
+      <div id="data-section" class="plan-section">
+        <h1>Data Plans</h1>
+        <div class="plans" id="data-plans-container"></div>
+      </div>
+
+      <!-- Hero Unlimited Section -->
+      <div id="hero-unlimited-section" class="plan-section">
+        <h1>Hero Unlimited Plans</h1>
+        <div class="plans" id="hero-unlimited-plans-container"></div>
+      </div>
+
+      <!-- Validity Plans Section -->
+      <div id="validity-section" class="plan-section">
+        <h1>Validity Plans</h1>
+        <div class="plans" id="validity-plans-container"></div>
+      </div>
+
+      <!-- Other Plans Section -->
+      <div id="other-section" class="plan-section">
+        <h1>Other Plans</h1>
+        <div class="plans" id="other-plans-container"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Overlay - FROM FIRST FILE -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-container">
+      <span class="modal-close" onclick="closeModal()">&times;</span>
+      <div class="modal-content" id="modalContent">
+        <!-- Modal content will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+<footer class="footer  py-5">
+  <div class="container">
+      <div class="row text-white">
+          <!-- About MobiComm -->
+          <div class="col-lg-3 col-md-6 mb-4">
+              <h5 class="footer-title">MobiComm</h5>
+              <p class="footer-text">
+                  Your trusted partner for mobile recharges and digital services. 
+                  We are committed to providing the best plans and seamless experience.
+              </p>
+              <div class="social-icons">
+                  <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+                  <a href="#" class="me-3"><i class="bi bi-twitter"></i></a>
+                  <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
+                  <a href="#"><i class="bi bi-linkedin"></i></a>
+              </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-lg-3 col-md-6 mb-4">
+              <h5 class="footer-title">Quick Links</h5>
+              <ul class="list-unstyled">
+                  <li><a href="home.html">Home</a></li>
+                  <li><a href="plans 2.html">Prepaid Plans</a></li>
+                  <li><a href="discover.html">Discover</a></li>
+                  <li><a href="profile2.html">My Account</a></li>
+                  <li><a href="support2.html">Support</a></li>
+              </ul>
+          </div>
+
+          <!-- Support -->
+          <div class="col-lg-3 col-md-6 mb-4">
+              <h5 class="footer-title">Support</h5>
+              <ul class="list-unstyled">
+                  <li><a href="#">Mobile Recharge</a></li>
+                  <li><a href="#">My Account</a></li>
+                  <li><a href="#">Help Center</a></li>
+                  <li><a href="#">FAQ</a></li>
+              </ul>
+          </div>
+
+          <!-- Contact Us & QR Code -->
+          <div class="col-lg-3 col-md-6 mb-4">
+              <h5 class="footer-title">Contact Us</h5>
+              <ul class="list-unstyled">
+                  <li><i class="bi bi-geo-alt me-2"></i> 123 Digital Street, Tech City</li>
+                  <li><i class="bi bi-telephone me-2"></i> +91 9876543210</li>
+                  <li><i class="bi bi-envelope me-2"></i> support@mobicomm.com</li>
+              </ul>
+              <h6 class="mt-3">Download Our App</h6>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://play.google.com/store" alt="QR Code" width="100">
+          </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom text-white text-center mt-4 pt-3">
+          <p>© 2025 MobiComm. All rights reserved.</p>
+          <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+      </div>
+  </div>
+</footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+  const plans = {
+  "popular":[
+      { name: "Basic Plan", price: "₹199/month", validity: "28 Days", data: "2GB/day", calls: "Unlimited", sms: "100/day" },
+      { name: "Standard Plan", price: "₹299/month", validity: "28 Days", data: "3GB/day", calls: "Unlimited", sms: "150/day" },
+      { name: "Premium Plan", price: "₹499/month", validity: "56 Days", data: "4GB/day", calls: "Unlimited", sms: "200/day" },
+      { name: "Gold Plan", price: "₹699/month", validity: "84 Days", data: "5GB/day", calls: "Unlimited", sms: "300/day" },
+      { name: "Diamond Plan", price: "₹999/month", validity: "365 Days", data: "6GB/day", calls: "Unlimited", sms: "500/day" },
+      { name: "Platinum Plan", price: "₹1499/month", validity: "365 Days", data: "10GB/day", calls: "Unlimited", sms: "1000/day" }
+  ],
+
+  "data": [
+        { name: "Daily Data", price: "₹99", validity: "1 Day", data: "2GB", sms: "0", calls: "NA" },
+        { name: "Quarter Data", price: "₹499", validity: "90 Days", data: "3GB/Day", sms: "100 SMS/Day", calls: "Unlimited", offer: "YouTube Premium" },
+        { name: "Half-Yearly Data", price: "₹799", validity: "180 Days", data: "5GB/Day", sms: "Unlimited", calls: "Unlimited", offer: "Disney+ Hotstar" }
+    ],
+  
+    "hero unlimited": [
+        { name: "Hero Basic", price: "₹399", validity: "84 Days", data: "1.5GB/Day", sms: "100 SMS/Day", calls: "Unlimited", offer: "Netflix" },
+        { name: "Hero Plus", price: "₹699", validity: "90 Days", data: "2GB/Day", sms: "100 SMS/Day", calls: "Unlimited", offer: "Amazon Prime" },
+        { name: "Hero Premium", price: "₹999", validity: "365 Days", data: "3GB/Day", sms: "Unlimited", calls: "Unlimited", offer: "Netflix & Disney+" }
+    ],
+    "validity": [
+        { name: "Monthly Validity", price: "₹149", validity: "28 Days", data: "NA", sms: "100 SMS/Day", calls: "Unlimited", offer: "Hotstar" },
+        { name: "Bi-Monthly", price: "₹299", validity: "56 Days", data: "NA", sms: "100 SMS/Day", calls: "Unlimited", offer: "Amazon Prime" },
+        { name: "Annual Validity", price: "₹699", validity: "365 Days", data: "NA", sms: "100 SMS/Day", calls: "Unlimited", offer: "15% discount" }
+    ],
+    "other": [
+        { name: "Mini Talktime", price: "₹50", validity: "NA", data: "NA", sms: "NA", calls: "₹39 Talktime" },
+        { name: "Standard Talktime", price: "₹100", validity: "NA", data: "NA", sms: "NA", calls: "₹79 Talktime" },
+        { name: "Mega Talktime", price: "₹500", validity: "NA", data: "NA", sms: "NA", calls: "₹420 Talktime" }
+    ]
+  };
+  
+  // Keep track of current category and filtered plans
+  let currentCategory = "popular"; 
+  let filteredPlans = [...plans[currentCategory]]; 
+
+  // Set up event listeners when the DOM is loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    // Initialize the popular section as active
+    loadAllCategoryPlans();
+    
+    // Add click event listeners to all nav items
+    document.querySelectorAll('.secnav-item').forEach(item => {
+      item.addEventListener('click', function() {
+        // Get the category from the data attribute
+        const category = this.getAttribute('data-category');
+        
+        // Remove active class from all nav items
+        document.querySelectorAll('.secnav-item').forEach(nav => {
+          nav.classList.remove('active');
+        });
+        
+        // Add active class to clicked nav item
+        this.classList.add('active');
+        
+        // Show the corresponding section
+        showSection(category);
+      });
+    });
+  });
+
+  // Load plans for all categories
+  function loadAllCategoryPlans() {
+    // Load each category
+    Object.keys(plans).forEach(category => {
+      const containerId = `${category.replace(' ', '-')}-plans-container`;
+      const container = document.getElementById(containerId);
+      
+      if (container) {
+        // Clear the container
+        container.innerHTML = "";
+        
+        // Render plans for this category
+        plans[category].forEach((plan, index) => {
+          const planCard = createPlanCard(plan, index, category);
+          container.appendChild(planCard);
+        });
+      }
+    });
+  }
+  
+  // Show a specific section and hide others
+  function showSection(category) {
+    currentCategory = category;
+    filteredPlans = [...plans[category]];
+    
+    // Hide all sections
+    document.querySelectorAll('.plan-section').forEach(section => {
+      section.classList.remove('active');
+    });
+    
+    // Show the selected section
+    const sectionId = `${category.replace(' ', '-')}-section`;
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.classList.add('active');
+    }
+  }
+  
+  // Create a plan card element
+  function createPlanCard(plan, index, category) {
+    const planCard = document.createElement("div");
+    planCard.classList.add("plan-card");
+    planCard.innerHTML = `
+      <div class="plan-header">${plan.name || "Plan"}</div>
+      <p class="price">${plan.price}</p>
+      <ul class="features">
+          <li>Validity: ${plan.validity}</li>
+          <li>Data: ${plan.data}</li>
+          <li>Calls: ${plan.calls}</li>
+          <li>SMS: ${plan.sms}</li>
+      </ul>
+      <div class="cta-buttons">
+          <button class="cta-button" onclick="buyPlan('${category}', ${index})">Buy Now</button>
+          <span class="details-text" onclick="showModal('${category}', ${index})">View Details</span>
+      </div>
+    `;
+    return planCard;
+  }
+  
+  // Filter plans based on search input
+  function filterPlans() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const currentSection = document.querySelector('.plan-section.active');
+    const planCards = currentSection.querySelectorAll('.plan-card');
+
+    planCards.forEach(card => {
+      const text = card.innerText.toLowerCase();
+      if (text.includes(input)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  }
+
+  // Show modal with plan details
+  function showModal(category, index) {
+    const plan = plans[category][index];
+    
+    // Define subscriptions based on plan
+    let subscriptions = [];
+    if (plan.offer && plan.offer.includes("Disney") || plan.offer && plan.offer.includes("Hotstar")) {
+      subscriptions.push("disney");
+    }
+    if (plan.offer && plan.offer.includes("Netflix")) {
+      subscriptions.push("netflix");
+    }
+    if (plan.offer && plan.offer.includes("Prime")) {
+      subscriptions.push("prime");
+    }
+    
+    // Generate benefits table rows
+    let benefitsRows = `
+      <tr>
+          <td>Pack Validity</td>
+          <td>${plan.validity}</td>
+      </tr>
+      <tr>
+          <td>Total Data</td>
+          <td>${plan.data}</td>
+      </tr>
+      <tr>
+          <td>Calls</td>
+          <td>${plan.calls}</td>
+      </tr>
+      <tr>
+          <td>SMS</td>
+          <td>${plan.sms}</td>
+      </tr>
+    `;
+    
+    // Generate subscription logos HTML
+    let subscriptionLogos = '';
+    subscriptions.forEach(sub => {
+      if (sub === 'disney') {
+        subscriptionLogos += `
+          <div class="subscription-logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/5977/5977590.png" alt="Disney+">
+          </div>
+        `;
+      } else if (sub === 'netflix') {
+        subscriptionLogos += `
+          <div class="subscription-logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/5977/5977570.png" alt="Netflix">
+          </div>
+        `;
+      } else if (sub === 'prime') {
+        subscriptionLogos += `
+          <div class="subscription-logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/5977/5977575.png" alt="Prime">
+          </div>
+        `;
+      }
+    });
+    
+    // Additional benefits
+    let additionalBenefitsItems = '';
+    if (plan.offer && plan.offer !== "NA") {
+      additionalBenefitsItems += `
+        <div class="benefit-item">
+          <span class="checkmark">✓</span>
+          <span>${plan.offer}</span>
+        </div>
+      `;
+    }
+    additionalBenefitsItems += `
+      <div class="benefit-item">
+        <span class="checkmark">✓</span>
+        <span>No hidden charges</span>
+      </div>
+      <div class="benefit-item">
+        <span class="checkmark">✓</span>
+        <span>Best-in-class network coverage</span>
+      </div>
+    `;
+    
+    
+    // Populate modal content
+    document.getElementById('modalContent').innerHTML = `
+      <h2 class="modal-title">Plan Details</h2>
+      <div class="modal-price">${typeof plan.price === 'number' ? '₹' + plan.price : plan.price}</div>
+      
+      ${subscriptions.length > 0 ? `
+      <div class="subscriptions">
+        <div class="subscription-title">Subscriptions Included</div>
+        <div class="subscription-logos">
+          ${subscriptionLogos}
+        </div>
+      </div>
+      ` : ''}
+      
+      <div class="benefits-section">
+        <div class="benefits-title">Plan Benefits</div>
+        <table class="benefits-table">
+          ${benefitsRows}
+        </table>
+      </div>
+      
+      <div class="additional-benefits">
+        <div class="additional-title">Additional Benefits</div>
+        ${additionalBenefitsItems}
+      </div>
+      
+      <button class="buy-btn" onclick="buyPlan('${category}', ${index})">Buy</button>
+    `;
+    
+    // Show the modal
+    document.getElementById('modalOverlay').style.display = 'flex';
+  }
+
+  // Close modal
+  function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+  }
+
+  // Close modal when clicking outside of it
+  window.onclick = function(event) {
+    const modalOverlay = document.getElementById('modalOverlay');
+    if (event.target === modalOverlay) {
+      closeModal();
+    }
+  }
+  
+  // Buy plan function
+  function buyPlan(category, index) {
+    const selectedPlan = plans[category][index];
+    const queryParams = new URLSearchParams({
+      name: selectedPlan.name || "Plan",
+      price: selectedPlan.price,
+      validity: selectedPlan.validity,
+      data: selectedPlan.data,
+      calls: selectedPlan.calls,
+      sms: selectedPlan.sms
+    }).toString();
+    
+    window.location.href = `pay2.html?${queryParams}`;
+  }
+  </script>
+  
+</body>
+</html>

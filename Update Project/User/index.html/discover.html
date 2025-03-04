@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobiComm - Discover</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* General Styling */
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: #f4f4f4;
+            height: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Full-Width Navbar */
+        .navbar {
+            background-color: #880E4F;
+            width: 100%;
+            padding: 5px 5px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            border-radius: 50px;
+            height: 80px;
+            position: fixed;
+            top: 10px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            z-index: 1000;
+            width: 95%;
+        }
+
+        .navbar-logo {
+            font-family: 'Great Vibes', cursive; 
+            font-size: 28px; 
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-right: 5px;
+        }
+      
+        .navbar.scrolled {
+            border-radius: 0;
+            padding: 10px 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+
+        /* Profile Icon */
+        .profile-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Full Page Sections */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 100px 0 50px 0;
+            position: relative;
+        }
+
+        /* Carousel Section */
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            width: 80%;
+            margin: auto;
+            position: relative;
+            flex-direction: column;
+        }
+
+        .carousel-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        .plan-card {
+            flex: 0 0 calc(100% / 3);
+            margin: 15px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: scale(1.05);
+        }
+
+        .plan-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        /* Carousel Navigation */
+        .arrow-btn {
+            cursor: pointer;
+            font-size: 24px;
+            border: none;
+            background: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .arrow-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+
+        /* Pagination Dots */
+        .pagination-container {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .pagination-btn {
+            width: 12px;
+            height: 12px;
+            margin: 3px;
+            border-radius: 50%;
+            background: gray;
+            display: inline-block;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .pagination-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .pagination-btn.active {
+            background: #077C84;
+        }
+
+        /* Features Section */
+        .features-section {
+            background-color: #E5D1D1;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: #FDCB58;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            color: #333;
+        }
+
+        .section-title {
+            color: #890D50;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 32px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: #FDCB58;
+            bottom: -10px;
+            left: 25%;
+        }
+
+        /* Mission & Vision Section */
+        .mission-vision h2, .leadership h2 {
+            color: #890D50;
+        }
+
+        .mission-vision .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .mission-vision .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* History Section */
+        .history-timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .history-timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #890D50;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 5px;
+        }
+
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: white;
+            border: 4px solid #FDCB58;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid #E5D1D1;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent #E5D1D1;
+        }
+
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid #E5D1D1;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #E5D1D1 transparent transparent;
+        }
+
+        .right::after {
+            left: -12px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: #E5D1D1;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-year {
+            color: #890D50;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Leadership Section */
+        .team-member {
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .image-frame {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            border: 5px solid #890D50;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .image-frame:hover {
+            transform: scale(1.05);
+            border-color: #FDCB58;
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-icon {
+            border-radius: 50%;
+            border: none; 
+            background: none; 
+        }
+
+        /* Our Values Section */
+        .value-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .value-icon {
+            font-size: 40px;
+            color: #890D50;
+            margin-bottom: 15px;
+        }
+
+        /* Awards Section */
+        .awards-section {
+            background: linear-gradient(135deg, #FFE6F0 0%, #F8F9FA 100%);
+            padding: 50px 0;
+            border-radius: 15px;
+        }
+
+        .award-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .award-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .award-icon {
+            font-size: 30px;
+            color: #FDCB58;
+            margin-bottom: 15px;
+        }
+
+            .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            color: #890D50;
+            font-size: 24px;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-30px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-15px) translateX(-50%);
+            }
+        }
+
+        /* Recharge Button */
+        .recharge-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #FDCB58;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .recharge-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        .footer {
+            background-color: #880E4F;
+            color: white;
+    width: 100vw; /* Use viewport width instead of percentage */
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%); /* Center the footer and ensure full width */
+    margin-right: calc(-50vw + 50%);
+    padding: 40px 0;
+}
+
+.footer .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+      .footer-title {
+          font-weight: 600;
+          margin-bottom: 15px;
+          position: relative;
+          display: inline-block;
+      }
+  
+      .footer-title::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          background-color: white;
+          bottom: -10px;
+          left: 0;
+      }
+  
+      .footer-text {
+          font-size: 14px;
+          line-height: 1.6;
+      }
+  
+      .footer ul {
+          list-style: none;
+          padding-left: 0;
+      }
+  
+      .footer ul li {
+          margin-bottom: 8px;
+      }
+  
+      .footer a {
+          color: rgba(255, 255, 255, 0.8);
+          text-decoration: none;
+          transition: all 0.3s ease;
+      }
+  
+      .footer a:hover {
+          color: white;
+          text-decoration: underline;
+      }
+  
+      .footer-bottom {
+          padding-top: 20px;
+          border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+  
+      .social-icons a {
+          color: white;
+          font-size: 18px;
+          transition: color 0.3s ease;
+      }
+  
+      .social-icons a:hover {
+          color: #FFD700;
+      }
+
+  
+      @media (max-width: 768px) {
+          .footer .row div {
+              text-align: center;
+          }
+      }
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                border-radius: 20px;
+                height: auto;
+                padding: 10px;
+            }
+
+            .navbar-nav {
+                text-align: center;
+                padding-top: 10px;
+            }
+
+            .section {
+                padding: 80px 15px 50px 15px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .carousel-container {
+                width: 100%;
+            }
+
+            .plan-card {
+                flex: 0 0 100%;
+                margin: 10px 0;
+            }
+
+            .features-section {
+                padding: 20px;
+            }
+
+            .feature-icon {
+                font-size: 30px;
+            }
+
+            .feature-title {
+                font-size: 16px;
+            }
+
+            .feature-description {
+                font-size: 13px;
+            }
+
+            .mission-vision h2 {
+                font-size: 18px;
+            }
+
+            .mission-vision p {
+                font-size: 13px;
+            }
+
+            .leadership h2 {
+                font-size: 18px;
+            }
+
+            .image-frame {
+                width: 100px;
+                height: 100px;
+            }
+
+            .card-body h3 {
+                font-size: 16px;
+            }
+
+            .card-body p {
+                font-size: 13px;
+            }
+
+            .history-timeline::after {
+                left: 31px;
+            }
+
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-container::before {
+                left: 60px;
+                border: medium solid #E5D1D1;
+                border-width: 10px 10px 10px 0;
+                border-color: transparent #E5D1D1 transparent transparent;
+            }
+
+            .left::after, .right::after {
+                left: 19px;
+            }
+
+            .right {
+                left: 0%;
+            }
+
+            .footer {
+                padding: 15px;
+            }
+
+            .footer a {
+                font-size: 13px;
+            }
+
+            .footer-bottom {
+                font-size: 12px;
+            }
+        }
+
+      
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
+    <div class="container-fluid">
+        <span class="navbar-logo animate__animated animate__fadeIn">Mobi-Comm</span>
+
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link " href="home.html">Recharge</a></li>
+                <li class="nav-item"><a class="nav-link" href="plans.html">Prepaid</a></li>
+                <li class="nav-item"><a class="nav-link active" href="discover.html">Discover</a></li>
+                <li class="nav-item"><a class="nav-link" href="support2.html">Support</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown ms-3">
+            <a href="profile2.html">
+                <i class="bi bi-person-circle" style="font-size: 50px; color:white;"></i>
+            </a>
+        </div>
+        
+    </div>
+</nav>
+
+
+
+    <!-- First Section: Services -->
+    <section class="section" id="services">
+        <div class="container text-center">
+            <h2 class="section-title mb-4">Know About MobiComm Services</h2>
+            <p class="lead mb-4">
+              "Stay connected to what matters, anytime, anywhere.
+              Seamless recharges, effortless experience.
+              MobiComm – Powering your communication!"
+            </p>
+
+            <div class="carousel-container">
+                <button class="arrow-btn prev-btn" onclick="scrollPlans(-1)">&#10094;</button>
+                <div class="carousel-wrapper" id="planCarousel">
+                    <div class="plan-card"><img src="images/image7.png" alt="Plan 1"></div>
+                    <div class="plan-card"><img src="images/image3.png" alt="Plan 2"></div>
+                    <div class="plan-card"><img src="images/image4.png" alt="Plan 3"></div>
+                    <div class="plan-card"><img src="images/image5.png" alt="Plan 4"></div>
+                    <div class="plan-card"><img src="images/image6.png" alt="Plan 5"></div>
+                    <div class="plan-card"><img src="images/image7.png" alt="Plan 6"></div>
+                </div>
+                <button class="arrow-btn next-btn" onclick="scrollPlans(1)">&#10095;</button>
+                <div class="pagination-container" id="pagination"></div>
+            </div>
+
+            <div class="mt-4">
+                <p class="mb-4">Recharging your mobile is now effortless with MobiComm Prepaid. Enjoy instant activation, secure transactions, and multiple payment options like UPI, bank transfer, and cards. No more waiting—just a few taps, and you're good to go! Our user-friendly platform ensures a smooth and hassle-free experience. Stay connected anytime, anywhere without interruptions.</p>
+                <a href="home.html" class="recharge-btn">Recharge Now!</a>
+            </div>
+        </div>
+        
+        <div class="scroll-down" onclick="scrollToNextSection('features')">
+            <i class="bi bi-chevron-double-down"></i>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="features-section text-center">
+                <h2 class="section-title">Why Choose MobiComm?</h2>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-4 mb-4">
+                        <div>
+                            <div class="feature-icon">⚡</div>
+                            <h4 class="feature-title">Instant Recharge</h4>
+                            <p class="feature-description">Get your mobile recharged within seconds using our quick and easy payment options.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div>
+                            <div class="feature-icon">🛡️</div>
+                            <h4 class="feature-title">100% Secure Payments</h4>
+                            <p class="feature-description">All transactions are encrypted and processed securely for your peace of mind.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div>
+                            <div class="feature-icon">🏷️</div>
+                            <h4 class="feature-title">Best Deals</h4>
+                            <p class="feature-description">Enjoy exclusive discounts and special offers on your prepaid mobile plans.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div>
+                            <div class="feature-icon">📱</div>
+                            <h4 class="feature-title">Seamless Connectivity</h4>
+                            <p class="feature-description">Experience uninterrupted network coverage across urban and rural areas.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div>
+                            <div class="feature-icon">🔄</div>
+                            <h4 class="feature-title">Auto Recharge</h4>
+                            <p class="feature-description">Set up auto-recharge and never worry about running out of balance again.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div>
+                            <div class="feature-icon">🎁</div>
+                            <h4 class="feature-title">Loyalty Rewards</h4>
+                            <p class="feature-description">Earn points on every recharge and redeem them for exciting rewards.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-down" onclick="scrollToNextSection('mission')">
+            <i class="bi bi-chevron-double-down"></i>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section class="section mission-vision" id="mission">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Our Purpose</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="bg-white p-4 rounded shadow text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-bullseye text-danger" style="font-size: 48px;"></i>
+                        </div>
+                        <h2>Our Mission</h2>
+                        <p>To provide seamless, affordable, and innovative mobile communication services that empower individuals and businesses globally.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-white p-4 rounded shadow text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-eye text-primary" style="font-size: 48px;"></i>
+                        </div>
+                        <h2>Our Vision</h2>
+                        <p>To be the leading provider of prepaid mobile solutions, ensuring connectivity for everyone with exceptional service and reliability.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-down" onclick="scrollToNextSection('values')">
+            <i class="bi bi-chevron-double-down"></i>
+        </div>
+    </section>
+
+    <!-- Our Values Section (New) -->
+    <section class="section" id="values">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Our Core Values</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <div class="value-icon">
+                            <i class="bi bi-heart-fill"></i>
+                        </div>
+                        <h3>Customer First</h3>
+                        <p>We prioritize our customers' needs in everything we do, striving to exceed expectations and deliver exceptional service.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <div class="value-icon">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                        </div>
+                        <h3>Innovation</h3>
+                        <p>We constantly seek new ways to improve our services, embracing cutting-edge technology to enhance user experience.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <div class="value-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3>Integrity</h3>
+                        <p>We operate with honesty and transparency, building trust through ethical business practices and accountability.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <div class="value-icon">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h3>Inclusion</h3>
+                        <p>We believe in connectivity for all, bridging the digital divide and making our services accessible to everyone.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <div class="value-icon">
+                            <i class="bi bi-globe"></i>
+                        </div>
+                        <h3>Sustainability</h3>
+                        <p>We are committed to environmentally responsible practices, minimizing our carbon footprint and supporting green initiatives.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <div class="value-icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <h3>Continuous Improvement</h3>
+                        <p>We constantly evaluate and enhance our processes, services, and technologies to deliver better solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-down" onclick="scrollToNextSection('history')">
+            <i class="bi bi-chevron-double-down"></i>
+        </div>
+    </section>
+
+    <!-- Company History Section (New) -->
+    <section class="section" id="history">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Our Journey</h2>
+            
+            <div class="history-timeline">
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">2010</h3>
+                        <p>Founded as a small startup with a vision to revolutionize mobile connectivity in underserved areas.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">2012</h3>
+                        <p>Launched our first prepaid mobile plan, attracting over 100,000 customers in the first year.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">2015</h3>
+                        <p>Expanded operations nationwide, becoming one of the fastest-growing telecom providers.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">2018</h3>
+                        <p>Introduced our innovative mobile app, allowing customers to manage their accounts and recharge on the go.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">2021</h3>
+                        <p>Reached the milestone of 10 million active users across the country.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3 class="timeline-year">2024</h3>
+                        <p>Launched next-generation connectivity solutions, paving the way for future telecommunications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-down" onclick="scrollToNextSection('leadership')">
+            <i class="bi bi-chevron-double-down"></i>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="section leadership" id="leadership">
+        <div class="container text-center">
+            <h2 class="section-title mb-5">Meet Our Leadership</h2>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow p-3 team-member">
+                        <div class="image-frame">
+                            <img src="images/person1.jpg" alt="CEO">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">John Doe</h3>
+                            <p class="card-text">Chief Executive Officer</p>
+                            <p class="text-muted">Visionary leader with over 20 years of experience in telecommunications, driving MobiComm's growth strategy and innovation initiatives.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow p-3 team-member">
+                        <div class="image-frame">
+                            <img src="images/person2.jpg" alt="CTO">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Sarah Johnson</h3>
+                            <p class="card-text">Chief Technology Officer</p>
+                            <p class="text-muted">Tech innovator with expertise in 5G infrastructure and IoT solutions, leading MobiComm's technical strategy and product development since 2018.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow p-3 team-member">
+                        <div class="image-frame">
+                            <img src="images/person3.jpg" alt="COO">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Michael Chen</h3>
+                            <p class="card-text">Chief Operations Officer</p>
+                            <p class="text-muted">Operations expert with a background in global telecommunications, optimizing MobiComm's service delivery and customer experience worldwide.</p>
+                        </div>
+                    </div>
+                </div>
+     <!-- Footer Section -->
+  <footer class="footer mt-auto py-5">
+    <div class="container">
+        <div class="row text-white">
+            <!-- About MobiComm -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">MobiComm</h5>
+                <p class="footer-text">
+                    Your trusted partner for mobile recharges and digital services. 
+                    We are committed to providing the best plans and seamless experience.
+                </p>
+                <div class="social-icons">
+                    <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Prepaid Plans</a></li>
+                    <li><a href="#">Discover</a></li>
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Support -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Support</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Mobile Recharge</a></li>
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Us & QR Code -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li><i class="bi bi-geo-alt me-2"></i> 123 Digital Street, Tech City</li>
+                    <li><i class="bi bi-telephone me-2"></i> +91 9876543210</li>
+                    <li><i class="bi bi-envelope me-2"></i> support@mobicomm.com</li>
+                </ul>
+                <h6 class="mt-3">Download Our App</h6>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://play.google.com/store" alt="QR Code" width="100">
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-white text-center mt-4 pt-3">
+            <p>© 2025 MobiComm. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </div>
+</footer>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    window.addEventListener("scroll", function () {
+                        let navbar = document.getElementById("mainNav");
+                
+                        if (window.scrollY > 50) {
+                            navbar.classList.add("scrolled");
+                            navbar.style.width = "100%";
+                            navbar.style.borderRadius = "0";
+                            navbar.style.top = "0";
+                        } else {
+                            navbar.classList.remove("scrolled");
+                            navbar.style.width = "95%";
+                            navbar.style.borderRadius = "50px";
+                            navbar.style.top = "10px";
+                        }
+                    });
+                });
+
+</script>

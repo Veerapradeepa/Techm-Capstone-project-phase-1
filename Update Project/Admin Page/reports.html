@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecom Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --warning: #ffaa00;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .page-title {
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .stats-card {
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            height: 100%;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .icon-circle {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .todo-section {
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .todo-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f1f1f1;
+            transition: background 0.3s;
+        }
+        
+        .todo-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .todo-completed {
+            background-color: #f8f9fa;
+        }
+        
+        .todo-completed .todo-text {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background-color: #343a40;
+            padding-top: 1rem;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: #0d6efd;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 0.5rem;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-3">
+                <h5 class="text-white mb-4">Admin Dashboard</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="subscribers2.html">
+                            <i class="fas fa-users"></i> Subscribers Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="plan management.html">
+                            <i class="fas fa-tags"></i>Plans Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="reports.html">
+                            <i class="fas fa-chart-line"></i> Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <h2 class="page-title py-4">Admin Dashboard</h2>
+
+                <!-- Subscriber Stats Cards -->
+                <h3 class="page-title h5 mt-4 mb-3">Subscriber Statistics</h3>
+                <div class="row g-4 mb-4">
+                    <!-- Active Subscribers Card -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="stats-card card">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                                <h3 class="card-title">Active Subscribers</h3>
+                                <div class="icon-circle bg-primary bg-opacity-10">
+                                    <i class="fas fa-users text-primary"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="stat-value text-primary">125,480</div>
+                                <div class="stat-label">
+                                    <span class="text-success">+342</span> new today
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Status Check Card -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="stats-card card">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                                <h3 class="card-title">Service Status</h3>
+                                <div class="icon-circle bg-success bg-opacity-10">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="stat-value text-success">98.7%</div>
+                                <div class="stat-label">
+                                    <span class="text-danger">12</span> reported issues
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Average Data Usage Card -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="stats-card card">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                                <h3 class="card-title">Avg. Data Usage</h3>
+                                <div class="icon-circle bg-info bg-opacity-10">
+                                    <i class="fas fa-database text-info"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="stat-value text-info">4.8 GB</div>
+                                <div class="stat-label">
+                                    <span class="text-success">+12.4%</span> vs last month
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call Duration Card -->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="stats-card card">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                                <h3 class="card-title">Avg. Call Duration</h3>
+                                <div class="icon-circle bg-warning bg-opacity-10">
+                                    <i class="fas fa-phone-alt text-warning"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="stat-value text-warning">8.2 min</div>
+                                <div class="stat-label">
+                                    <span class="text-danger">-3.7%</span> vs last month
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row g-4 mb-4">
+                    <!-- Plan Distribution Chart -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card">
+                            <div class="card-header bg-white py-3">
+                                <h3 class="card-title">Plan Distribution</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="planDistribution"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Usage Trend -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card">
+                            <div class="card-header bg-white py-3">
+                                <h3 class="card-title">Weekly Data Usage Trend (TB)</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="dataUsageTrend"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- To-Do List Section -->
+                <div class="card todo-section mb-4">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                        <h3 class="card-title"><i class="fas fa-tasks me-2 text-primary"></i> Plan Management Tasks</h3>
+                        <span id="task-counter" class="badge bg-light text-dark">3 tasks remaining</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="input-group p-3 border-bottom">
+                            <input type="text" class="form-control" placeholder="Add new task..." id="newTask">
+                            <button class="btn btn-primary" id="addTask">Add Task</button>
+                        </div>
+                        <ul class="list-group list-group-flush" id="todoList">
+                            <li class="list-group-item todo-item d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input todo-checkbox me-3">
+                                <span class="todo-text flex-grow-1">Update pricing for Gold Plan</span>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm text-primary todo-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm text-danger todo-delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                            <li class="list-group-item todo-item d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input todo-checkbox me-3">
+                                <span class="todo-text flex-grow-1">Review Hero Unlimited offer details</span>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm text-primary todo-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm text-danger todo-delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                            <li class="list-group-item todo-item todo-completed d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input todo-checkbox me-3" checked>
+                                <span class="todo-text flex-grow-1">Launch Basic Plan campaign</span>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm text-primary todo-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm text-danger todo-delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                            <li class="list-group-item todo-item d-flex align-items-center">
+                                <input type="checkbox" class="form-check-input todo-checkbox me-3">
+                                <span class="todo-text flex-grow-1">Schedule meeting with marketing team</span>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm text-primary todo-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm text-danger todo-delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Total View Section (Retained from original) -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h3 class="card-title"><i class="fas fa-chart-pie me-2 text-primary"></i> Plan Overview</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <div class="fs-3 fw-bold text-primary">20</div>
+                                    <div class="small text-muted">Total Plans</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <div class="fs-3 fw-bold text-primary">5</div>
+                                    <div class="small text-muted">Plan Categories</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <div class="fs-3 fw-bold text-primary">6</div>
+                                    <div class="small text-muted">Popular Plans</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <div class="fs-3 fw-bold text-primary">₹1499</div>
+                                    <div class="small text-muted">Highest Plan Price</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <div class="fs-3 fw-bold text-primary">365</div>
+                                    <div class="small text-muted">Max Validity (Days)</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="p-3 bg-light rounded text-center">
+                                    <div class="fs-3 fw-bold text-primary">10GB</div>
+                                    <div class="small text-muted">Max Data/Day</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Chart Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Plan Distribution Chart (Pie Chart)
+            const planDistributionCtx = document.getElementById('planDistribution').getContext('2d');
+            const planDistributionChart = new Chart(planDistributionCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Platinum', 'Gold', 'Standard', 'Basic'],
+                    datasets: [{
+                        data: [15250, 42300, 58700, 9230],
+                        backgroundColor: ['#4361ee', '#ffaa00', '#4cc9f0', '#ef476f'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${context.label}: ${value.toLocaleString()} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Data Usage Trend Chart (Bar Chart)
+            const dataUsageTrendCtx = document.getElementById('dataUsageTrend').getContext('2d');
+            const dataUsageTrendChart = new Chart(dataUsageTrendCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Data Usage (TB)',
+                        data: [120, 145, 160, 135, 190, 210, 170],
+                        backgroundColor: '#4361ee',
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        // Todo List Functionality
+        const todoList = document.getElementById('todoList');
+        const newTaskInput = document.getElementById('newTask');
+        const addTaskBtn = document.getElementById('addTask');
+        const taskCounter = document.getElementById('task-counter');
+        
+        // Add new task
+        addTaskBtn.addEventListener('click', () => {
+            const taskText = newTaskInput.value.trim();
+            if (taskText) {
+                const li = document.createElement('li');
+                li.className = 'list-group-item todo-item d-flex align-items-center';
+                li.innerHTML = `
+                    <input type="checkbox" class="form-check-input todo-checkbox me-3">
+                    <span class="todo-text flex-grow-1">${taskText}</span>
+                    <div class="btn-group">
+                        <button class="btn btn-sm text-primary todo-edit"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm text-danger todo-delete"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                todoList.appendChild(li);
+                newTaskInput.value = '';
+                updateTaskCounter();
+                
+                // Add event listeners to new elements
+                addTodoListeners(li);
+            }
+        });
+        
+        // Add event listeners to existing todo items
+        document.querySelectorAll('.todo-item').forEach(item => {
+            addTodoListeners(item);
+        });
+        
+        function addTodoListeners(item) {
+            // Checkbox toggle
+            const checkbox = item.querySelector('.todo-checkbox');
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    item.classList.add('todo-completed');
+                } else {
+                    item.classList.remove('todo-completed');
+                }
+                updateTaskCounter();
+            });
+            
+            // Delete button
+            const deleteBtn = item.querySelector('.todo-delete');
+            deleteBtn.addEventListener('click', () => {
+                item.remove();
+                updateTaskCounter();
+            });
+            
+            // Edit button
+            const editBtn = item.querySelector('.todo-edit');
+            editBtn.addEventListener('click', () => {
+                const textSpan = item.querySelector('.todo-text');
+                const currentText = textSpan.textContent;
+                const newText = prompt('Edit task:', currentText);
+                if (newText && newText.trim()) {
+                    textSpan.textContent = newText.trim();
+                }
+            });
+        }
+        
+        // Update task counter
+        function updateTaskCounter() {
+            const totalTasks = document.querySelectorAll('.todo-item').length;
+            const completedTasks = document.querySelectorAll('.todo-item.todo-completed').length;
+            const remainingTasks = totalTasks - completedTasks;
+            
+            taskCounter.textContent = `${remainingTasks} tasks remaining`;
+        }
+        
+        // Initialize task counter
+        updateTaskCounter();
+    </script>
+</body>
+</html>

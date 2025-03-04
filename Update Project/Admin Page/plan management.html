@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecom Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .sidebar {
+            min-height: 100vh;
+            background-color: #1a1a2e;
+            color: #ffffff;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar .nav-link.active {
+            color: #fff;
+            background-color: #4a4e69;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .content-wrapper {
+            background-color: #f4f6f9;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .card {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: none;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(74, 78, 105, 0.1);
+        }
+        
+        .btn-icon {
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-3">
+                <h4 class="text-white mb-4 text-center">
+                    Mobicomm Admin
+                </h4>
+                <ul class="nav flex-column">
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="subscribers2.html" data-section="subscribers">
+                            <i class="fas fa-users"></i> Subscribers Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="plan management.html" data-section="plans">
+                            <i class="fas fa-tags"></i> Plan Management
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./reports.html" data-section="reports">
+                            <i class="fas fa-chart-line"></i> Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="settings.html" data-section="settings">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </li>
+                    <li class="nav-item mt-auto">
+                        <a class="nav-link" href="#logout" data-section="logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 content-wrapper">
+                <!-- Section Containers -->
+                <div id="dashboard-section" class="section" style="display:none;">
+                    <h2>Dashboard</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Subscribers</h5>
+                                    <p class="card-text display-6" id="totalSubscribersCount">5,234</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Active Plans</h5>
+                                    <p class="card-text display-6" id="activePlansCount">42</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Revenue</h5>
+                                    <p class="card-text display-6">₹1,234,567</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="subscribers-section" class="section" style="display:none;">
+                    <h2>Subscribers Management</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Current Plan</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>John Doe</td>
+                                        <td>+91 9876543210</td>
+                                        <td>Premium Plan</td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info">View</button>
+                                            <button class="btn btn-sm btn-warning">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="plans-section" class="section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Recharge Plans Management</h2>
+                        <button type="button" class="btn btn-primary" id="addNewPlanBtn">
+                            <i class="fas fa-plus"></i> Add New Plan
+                        </button>
+                    </div>
+
+                    <!-- Filter Section -->
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <select id="categoryFilter" class="form-select">
+                                        <option value="">All Categories</option>
+                                        <option value="popular">Popular</option>
+                                        <option value="data">Data</option>
+                                        <option value="hero unlimited">Hero Unlimited</option>
+                                        <option value="validity">Validity</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select id="typeFilter" class="form-select">
+                                        <option value="">All Types</option>
+                                        <option value="Prepaid">Prepaid</option>
+                                        <option value="Data">Data</option>
+                                        <option value="Validity">Validity</option>
+                                        <option value="Talktime">Talktime</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" id="searchPlan" class="form-control" placeholder="Search plans...">
+                                </div>
+                                <div class="col-md-2">
+                                    <button id="resetFilters" class="btn btn-secondary">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plans Table -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="plansTable" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Validity</th>
+                                            <th>Data</th>
+                                            <th>Calls</th>
+                                            <th>SMS</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="plansTableBody">
+                                        <!-- Plans will be dynamically added here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reports-section" class="section" style="display:none;">
+                    <h2>Reports</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <p>Revenue, subscriber, and plan usage reports coming soon.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings-section" class="section" style="display:none;">
+                    <h2>Settings</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Admin Profile</label>
+                                    <input type="text" class="form-control" placeholder="Admin Name">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" placeholder="Admin Email">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals for CRUD Operations -->
+    <!-- Plan Add/Edit Modal -->
+    <div class="modal fade" id="planModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add/Edit Plan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="planForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Plan Name</label>
+                                <input type="text" class="form-control" id="planName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" id="planCategory" required>
+                                    <option value="popular">Popular</option>
+                                    <option value="data">Data</option>
+                                    <option value="hero unlimited">Hero Unlimited</option>
+                                    <option value="validity">Validity</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Price</label>
+                                <input type="number" class="form-control" id="planPrice" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Validity</label>
+                                <input type="text" class="form-control" id="planValidity" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Data</label>
+                                <input type="text" class="form-control" id="planData" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Calls</label>
+                                <input type="text" class="form-control" id="planCalls" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">SMS</label>
+                                <input type="text" class="form-control" id="planSms" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Offer (Optional)</label>
+                            <input type="text" class="form-control" id="planOffer">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="savePlanBtn">Save Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this plan?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+       // Plans data
+const plansJSON = {
+    "plans": {
+        "popular": [
+            { "name": "Basic Plan", "price": "₹199", "validity": "28 Days", "data": "2GB", "calls": "Unlimited", "sms": "100", "category": "popular" },
+            { "name": "Pro Plan", "price": "₹399", "validity": "56 Days", "data": "5GB", "calls": "Unlimited", "sms": "300", "category": "popular" }
+        ],
+        "data": [
+            { "name": "Data Boost", "price": "₹249", "validity": "28 Days", "data": "4GB", "calls": "Limited", "sms": "50", "category": "data" },
+            { "name": "Mega Data", "price": "₹499", "validity": "84 Days", "data": "10GB", "calls": "Unlimited", "sms": "200", "category": "data" }
+        ],
+        "hero unlimited": [
+            { "name": "Hero Unlimited", "price": "₹599", "validity": "84 Days", "data": "Unlimited", "calls": "Unlimited", "sms": "Unlimited", "category": "hero unlimited" }
+        ]
+    }
+};
+
+// DOM Elements
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-link');
+const plansTableBody = document.getElementById('plansTableBody');
+const addNewPlanBtn = document.getElementById('addNewPlanBtn');
+const planModal = new bootstrap.Modal(document.getElementById('planModal'));
+const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+const planForm = document.getElementById('planForm');
+const savePlanBtn = document.getElementById('savePlanBtn');
+const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+const categoryFilter = document.getElementById('categoryFilter');
+const typeFilter = document.getElementById('typeFilter');
+const searchPlan = document.getElementById('searchPlan');
+const resetFilters = document.getElementById('resetFilters');
+
+// // Navigation
+// navLinks.forEach(link => {
+//     link.addEventListener('click', (e) => {
+//         e.preventDefault();
+//         const sectionToShow = e.currentTarget.dataset.section;
+        
+//         // Remove active class from all nav links
+//         navLinks.forEach(navLink => navLink.classList.remove('active'));
+//         e.currentTarget.classList.add('active');
+        
+//         // Hide all sections
+//         sections.forEach(section => {
+//             section.style.display = 'none';
+//         });
+        
+//         // Show selected section
+//         const selectedSection = document.getElementById(`${sectionToShow}-section`);
+//         if (selectedSection) {
+//             selectedSection.style.display = 'block';
+//         }
+//     });
+// });
+
+// Populate Plans Table
+function populatePlansTable(plans = Object.values(plansJSON.plans).flat()) {
+    plansTableBody.innerHTML = '';
+    plans.forEach((plan, index) => {
+        const row = `
+            <tr data-index="${index}">
+                <td>${plan.name}</td>
+                <td>${plan.category}</td>
+                <td>${plan.price}</td>
+                <td>${plan.validity}</td>
+                <td>${plan.data}</td>
+                <td>${plan.calls}</td>
+                <td>${plan.sms}</td>
+                <td>
+                    <button class="btn btn-sm btn-icon btn-warning edit-plan" title="Edit Plan">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-icon btn-danger delete-plan" title="Delete Plan">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+        plansTableBody.insertAdjacentHTML('beforeend', row);
+    });
+
+    // Add event listeners for edit and delete buttons
+    document.querySelectorAll('.edit-plan').forEach(btn => {
+        btn.addEventListener('click', handleEditPlan);
+    });
+
+    document.querySelectorAll('.delete-plan').forEach(btn => {
+        btn.addEventListener('click', handleDeletePlan);
+    });
+}
+
+// Initialize table on page load
+populatePlansTable();
+
+// Add New Plan
+addNewPlanBtn.addEventListener('click', () => {
+    planForm.reset();
+    planModal.show();
+});
+
+// Save Plan
+savePlanBtn.addEventListener('click', () => {
+    if (planForm.checkValidity()) {
+        const newPlan = {
+            name: document.getElementById('planName').value,
+            category: document.getElementById('planCategory').value,
+            price: `₹${document.getElementById('planPrice').value}`,
+            validity: document.getElementById('planValidity').value,
+            data: document.getElementById('planData').value,
+            calls: document.getElementById('planCalls').value,
+            sms: document.getElementById('planSms').value,
+            offer: document.getElementById('planOffer').value || ''
+        };
+
+        // In a real app, this would be a server call to save the plan
+        const category = newPlan.category;
+        plansJSON.plans[category].push(newPlan);
+        
+        populatePlansTable();
+        planModal.hide();
+    } else {
+        planForm.reportValidity();
+    }
+});
+
+// Edit Plan
+function handleEditPlan(e) {
+    const row = e.target.closest('tr');
+    const index = row.dataset.index;
+    const planCategories = Object.keys(plansJSON.plans);
+    
+    let planToEdit;
+    for (let category of planCategories) {
+        const foundPlan = plansJSON.plans[category].find((_, idx) => 
+            String(idx) === index
+        );
+        if (foundPlan) {
+            planToEdit = foundPlan;
+            break;
+        }
+    }
+
+    if (planToEdit) {
+        document.getElementById('planName').value = planToEdit.name;
+        document.getElementById('planCategory').value = planToEdit.category;
+        document.getElementById('planPrice').value = planToEdit.price.replace('₹', '');
+        document.getElementById('planValidity').value = planToEdit.validity;
+        document.getElementById('planData').value = planToEdit.data;
+        document.getElementById('planCalls').value = planToEdit.calls;
+        document.getElementById('planSms').value = planToEdit.sms;
+        document.getElementById('planOffer').value = planToEdit.offer || '';
+
+        planModal.show();
+    }
+}
+
+// Delete Plan
+let planToDeleteIndex;
+function handleDeletePlan(e) {
+    const row = e.target.closest('tr');
+    planToDeleteIndex = row.dataset.index;
+    deleteModal.show();
+}
+
+confirmDeleteBtn.addEventListener('click', () => {
+    const planCategories = Object.keys(plansJSON.plans);
+    
+    for (let category of planCategories) {
+        const indexInCategory = plansJSON.plans[category].findIndex((_, idx) => 
+            String(idx) === planToDeleteIndex
+        );
+        
+        if (indexInCategory !== -1) {
+            plansJSON.plans[category].splice(indexInCategory, 1);
+            break;
+        }
+    }
+
+    populatePlansTable();
+    deleteModal.hide();
+});
+
+// Filtering
+function filterPlans() {
+    const categoryValue = categoryFilter.value;
+    const typeValue = typeFilter.value;
+    const searchValue = searchPlan.value.toLowerCase();
+
+    let filteredPlans = Object.values(plansJSON.plans).flat();
+
+    if (categoryValue) {
+        filteredPlans = filteredPlans.filter(plan => plan.category === categoryValue);
+    }
+
+    if (typeValue) {
+        // In a real app, you might want more sophisticated type filtering
+        filteredPlans = filteredPlans.filter(plan => plan.category === typeValue.toLowerCase());
+    }
+
+    if (searchValue) {
+        filteredPlans = filteredPlans.filter(plan => 
+            plan.name.toLowerCase().includes(searchValue) ||
+            plan.price.toLowerCase().includes(searchValue)
+        );
+    }
+
+    populatePlansTable(filteredPlans);
+}
+
+categoryFilter.addEventListener('change', filterPlans);
+typeFilter.addEventListener('change', filterPlans);
+searchPlan.addEventListener('input', filterPlans);
+
+resetFilters.addEventListener('click', () => {
+    categoryFilter.value = '';
+    typeFilter.value = '';
+    searchPlan.value = '';
+    populatePlansTable();
+});
+</script>

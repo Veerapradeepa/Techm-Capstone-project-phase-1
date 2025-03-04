@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharge Now</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <!-- Animate.css for additional animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        /* Full-Width Navbar */
+        .navbar {
+            background-color: #880E4F;
+            padding: 3px 3px;
+            transition: all 0.4s ease;
+            border-radius: 50px;
+            position: sticky;
+            z-index: 1000;
+            top: 0;
+        }
+        
+        /* .navbar.scrolled {
+            border-radius: 0;
+            padding: 3px 3px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        } */
+        
+        .btn-custom {
+            background-color: #880E4F;
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-custom:hover {
+            background-color: #df8ab5;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(136, 14, 79, 0.3);
+        }
+        
+        /* Full-Screen Section */
+        .recharge-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            position: relative;
+        }
+        
+        /* Floating elements background */
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background-color: rgba(136, 14, 79, 0.05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        /* Single Box Container */
+        .recharge-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            max-width: 1400px; /* Increased from 1200px for better desktop viewability */
+            width: 90%; /* Added to ensure responsive width */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 1;
+            margin: 0 auto; /* Center the container */
+        }
+        
+        .illustration {
+            max-width: 100%;
+            border-radius: 10px;
+            transition: all 0.5s ease;
+        }
+        
+        .illustration:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        
+        .form-container {
+            flex: 1;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .form-container h4 {
+            font-size: 2rem;
+            color: #880E4F;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .form-container h4:after {
+            content: "";
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: #880E4F;
+            bottom: -10px;
+            left: 25%;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .form-container h4:hover:after {
+            transform: scaleX(1);
+        }
+        
+        .form-container input {
+            font-size: 1.2rem;
+            padding: 12px;
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .form-container input:focus {
+            border-color: #880E4F;
+            box-shadow: 0 0 0 3px rgba(136, 14, 79, 0.2);
+        }
+
+        .steps-container {
+            background-color: #e6a8c3;
+            padding: 50px;
+            border-radius: 15px;
+        }
+        
+        .step-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .step-box:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #880E4F, #df8ab5);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .step-box:hover:before, .step-box.active:before {
+            opacity: 1;
+        }
+        
+        .step-box:hover, .step-box.active {
+            transform: translateY(-10px);
+            box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+        
+        .step-box:hover .step-number, .step-box.active .step-number {
+            background: white;
+            color: #880E4F;
+        }
+        
+        .step-box:hover h5, .step-box.active h5,
+        .step-box:hover p, .step-box.active p {
+            color: white;
+        }
+        
+        .step-number {
+            background: #7a004d;
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: -20px auto 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-section {
+            padding: 50px 0;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(136, 14, 79, 0.1);
+            color: #880E4F;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(136, 14, 79, 0.25);
+        }
+        
+        .profile-icon {
+            border-radius: 50%; 
+            border: none;
+            background: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-icon:hover 
+        {
+            transform: scale(1.1);
+        }
+        
+        .recharge-container:hover {
+            border: 2px solid #880E4F;
+            transform: scale(1.02);
+        }
+        
+        .plans-section {
+            text-align: center;
+            padding: 40px 0;
+            background-color: #f8d7e6;
+        }
+        
+        .plan-card {
+            border-radius: 20px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e0e0e0;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .plan-card:before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #880E4F, #df8ab5);
+            transition: top 0.3s ease;
+        }
+        
+        .plan-card:hover:before {
+            top: 0;
+        }
+        
+        .badge-offer {
+            font-size: 12px;
+            padding: 5px 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .btn-recharge {
+            background-color: #880E4F;
+            color: white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-recharge:hover {
+            background-color: #df8ab5;
+            transform: translateY(-2px);
+        }
+        
+        .btn-view-details {
+            color: black;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .btn-view-details:hover {
+            color: #880E4F;
+            text-decoration: underline;
+        }
+        
+        .typed-cursor {
+            color: #880E4F;
+            font-weight: bold;
+        }
+        
+        .counters-section {
+            background-color: #fff;
+            padding: 60px 0;
+        }
+        
+        .counter-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .counter-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .counter-icon {
+            font-size: 40px;
+            color: #880E4F;
+            margin-bottom: 10px;
+        }
+        
+        .counter-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #880E4F;
+            margin-bottom: 0;
+        }
+        
+        .counter-text {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .testimonial-section {
+            background-color: #f9f9f9;
+            padding: 60px 0;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #880E4F;
+        }
+        
+        .testimonial-quote {
+            font-size: 1.1rem;
+            color: #555;
+            font-style: italic;
+            position: relative;
+            padding: 15px 0;
+        }
+        
+        .testimonial-quote:before,
+        .testimonial-quote:after {
+            content: '"';
+            font-size: 50px;
+            position: absolute;
+            color: rgba(136, 14, 79, 0.1);
+            font-family: Georgia, serif;
+        }
+        
+        .testimonial-quote:before {
+            top: -10px;
+            left: -15px;
+        }
+        
+        .testimonial-quote:after {
+            bottom: -40px;
+            right: -15px;
+        }
+        
+        .testimonial-name {
+            font-weight: 600;
+            color: #880E4F;
+        }
+        
+        .app-banner {
+            background: linear-gradient(to right, #fdeedc, #fcd9d8);
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .app-banner:hover {
+            background: linear-gradient(to right, #fcd9d8, #fdeedc);
+        }
+        
+        .qr-code {
+            width: 200px;
+            display: block;
+            margin: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .qr-code:hover {
+            transform: scale(1.05);
+        }
+        
+        .navbar-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 28px; 
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-right: 5px;
+        }
+        
+        .offer-card {
+            background-color: #ffc107;
+            color: #000;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Special Offer Banner */
+        .special-offer {
+            background: linear-gradient(135deg, #880E4F, #df8ab5);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .special-offer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+        
+        .recommended-plan {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recommended-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #880E4F;
+            color: white;
+            padding: 5px 10px;
+            transform: rotate(45deg) translateX(20px) translateY(-10px);
+            width: 150px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .faq-item {
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .faq-section {
+              width: 100vw; 
+          }
+
+            .faq-section .container {
+                max-width: 100%;
+                width: 100%;
+            }
+
+        .faq-question {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            background-color: #e6f0ff;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-answer {
+            padding: 15px;
+            border-top: 1px solid #ddd;
+            background-color: #fff;
+        }
+        
+     
+        .footer {
+            background-color: #880E4F;
+            color: white;
+    width: 100vw; /* Use viewport width instead of percentage */
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%); /* Center the footer and ensure full width */
+    margin-right: calc(-50vw + 50%);
+    padding: 40px 0;
+}
+
+.footer .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.footer .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+}
+.footer .col-lg-3 {
+    flex: 0 0 auto;
+    width: 15%;
+    margin-left:100px;
+}
+
+.footer-title {
+    font-weight: 600;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background-color: white;
+    bottom: -10px;
+    left: 0;
+}
+
+.footer-text 
+{
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.footer ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer ul li {
+    margin-bottom: 8px;
+}
+
+.footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    margin-top: 20px; 
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #FFD700;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 30px 0;
+    }
+    
+    .footer .container {
+        padding: 0 15px;
+    }
+    
+    .footer-text {
+        font-size: 13px;
+    }
+    
+    .social-icons {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+            .navbar {
+                border-radius: 0;
+                padding: 10px;
+            }
+            
+            .recharge-container {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            }
+         
+            .illustration {
+                max-width: 80%;
+                margin: 0 auto 20px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .form-container h4 {
+                font-size: 1.5rem;
+            }
+            
+            .form-container input {
+                font-size: 1rem;
+                padding: 10px;
+            }
+            
+            .btn-custom {
+                font-size: 1rem;
+                padding: 10px;
+            }
+            
+            .steps-container {
+                padding: 30px;
+            }
+            
+            .step-box {
+                padding: 15px;
+            }
+            
+            .step-number {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+            
+            .faq-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .accordion-button {
+                font-size: 1rem;
+            }
+
+        
+        }
+
+        
+        
+        /* Float animation for background elements */
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0);
+            }
+            33% {
+                transform: translateY(30px) translateX(20px) rotate(10deg);
+            }
+            66% {
+                transform: translateY(-20px) translateX(-10px) rotate(-5deg);
+            }
+            100% {
+                transform: translateY(0) translateX(0) rotate(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Special Offer Banner
+    <div class="special-offer">
+        <div class="container">
+            <b>🎉 LIMITED TIME OFFER:</b> Recharge with ₹749 plan and get additional 10GB data FREE! <button class="btn btn-sm btn-light ms-2">Claim Now</button>
+        </div>
+    </div> -->
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
+        <div class="container-fluid">
+            <span class="navbar-logo animate__animated animate__fadeIn">Mobi-Comm</span>
+
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="home.html">Recharge</a></li>
+                    <li class="nav-item"><a class="nav-link" href="plans 2.html">Prepaid</a></li>
+                    <li class="nav-item"><a class="nav-link" href="discover.html">Discover</a></li>
+                    <li class="nav-item"><a class="nav-link" href="support2.html">Support</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown ms-3">
+                <a href="profile2.html">
+                    <i class="bi bi-person-circle" style="font-size: 50px; color:white;"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full-Screen Recharge Section -->
+    <section class="container-fluid recharge-section">
+        <!-- Background Animation -->
+        <div class="background-animation" id="background-animation"></div>
+        
+        <div class="recharge-container" data-aos="fade-up">
+            <!-- Image Section -->
+            <div class="col-md-6" data-aos="fade-right" data-aos-delay="200">
+                <img src="images/imagefirst.png" class="illustration" alt="Recharge Illustration">
+            </div>
+            <!-- Recharge Form Section -->
+            <div class="col-md-6 form-container" data-aos="fade-left" data-aos-delay="400">
+                <h4 id="typed-heading">Recharge Now</h4>
+                <br>
+                <br>
+                <input type="text" id="mobileNumber" class="form-control mb-4" placeholder="Enter Mobile Number">
+                <button class="btn btn-custom w-100 pulse" id="proceedBtn">Proceed</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="app-banner" data-aos="fade-up">
+        <i class="bi bi-phone-fill"></i>
+        <span><strong>Free 1 GB data coupons when you recharge through Mobicomm services</strong></span>
+        <button class="btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#qrModal">GET APP</button>
+    </div>
+    
+    <!-- QR Code Modal -->
+    <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qrModalLabel">Download from Play Store</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Scan the QR code to open the Play Store.</p>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://play.google.com/store" 
+                         alt="Google Play Store QR Code" class="qr-code">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Steps Section -->
+    <div class="container my-5" data-aos="fade-up">
+        <div class="steps-container text-center">
+            <h2 class="fw-bold" data-aos="fade-up">FIND OUT HERE</h2>
+            <h4 class="text-muted" data-aos="fade-up" data-aos-delay="100">How It Works</h4>
+            <p data-aos="fade-up" data-aos-delay="200">See why our platform makes prepaid mobile recharges easy, secure, and convenient.</p>
+            
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-3 col-md-6 p-2" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-box" onclick="toggleStep(this)">
+                        <div class="step-number">1</div>
+                        <h5><strong>Enter Mobile Number</strong></h5>
+                        <p>Provide your 10-digit mobile number and get available plans instantly.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 p-2" data-aos="fade-up" data-aos-delay="400">
+                    <div class="step-box" onclick="toggleStep(this)">
+                        <div class="step-number">2</div>
+                        <h5><strong>Choose Your Plan</strong></h5>
+                        <p>Select the best recharge plan that suits your daily usage and need.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 p-2" data-aos="fade-up" data-aos-delay="500">
+                    <div class="step-box" onclick="toggleStep(this)">
+                        <div class="step-number">3</div>
+                        <h5><strong>Secure Payment</strong></h5>
+                        <p>Use UPI, Credit/Debit Card, or Net Banking for instant payment.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 p-2" data-aos="fade-up" data-aos-delay="600">
+                    <div class="step-box" onclick="toggleStep(this)">
+                        <div class="step-number">4</div>
+                        <h5><strong>Recharge Successful</strong></h5>
+                        <p>Receive confirmation and start using your prepaid plan immediately.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div opacity="50px"></div>
+
+    <!-- Popular Mobile Plans Section -->
+    <section class="plans-section py-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="fw-bold mb-2">Popular Mobile Plans</h2>
+            <p class="text-muted mb-4">Choose the best plan for your digital needs.</p>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="plan-card">
+                        <div class="badge bg-primary mb-2">Monthly Offer</div>
+                        <h3 class="mb-2">₹749</h3>
+                        <p class="mb-2">2 GB/Day + 20 GB</p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-recharge">Recharge</button>
+                            <a href="#" class="btn-view-details">View details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="plan-card recommended-plan">
+                        <div class="recommended-badge">BEST DEAL</div>
+                        <div class="badge bg-warning text-dark mb-2">Annual Plan</div>
+                        <h3 class="mb-2">₹3699</h3>
+                        <p class="mb-2">2.5 GB/Day</p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-recharge">Recharge</button>
+                            <a href="#" class="btn-view-details">View details</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="plan-card">
+                        <div class="badge bg-danger mb-2">Best Value</div>
+                        <h3 class="mb-2">₹1029</h3>
+                        <p class="mb-2">3 GB/Day</p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-recharge">Recharge</button>
+                            <a href="#" class="btn-view-details">View details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <!-- Counter Statistics Section -->
+      <section class="counters-section" data-aos="fade-up">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Why Choose MobiComm</h2>
+                <p class="text-muted">Join millions of satisfied customers who trust us for their prepaid mobile needs.</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3 col-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="counter-box">
+                        <i class="bi bi-people-fill counter-icon"></i>
+                        <h3 class="counter-number" data-target="5">0</h3>
+                        <p class="counter-text">Million+ Users</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="counter-box">
+                        <i class="bi bi-lightning-fill counter-icon"></i>
+                        <h3 class="counter-number" data-target="99">0</h3>
+                        <p class="counter-text">% Successful Recharges</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="counter-box">
+                        <i class="bi bi-shield-check counter-icon"></i>
+                        <h3 class="counter-number" data-target="100">0</h3>
+                        <p class="counter-text">% Secure Payments</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="counter-box">
+                        <i class="bi bi-star-fill counter-icon"></i>
+                        <h3 class="counter-number" data-target="4.8">0</h3>
+                        <p class="counter-text">User Rating</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="testimonial-section" data-aos="fade-up">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">What Our Customers Say</h2>
+                <p class="text-muted">Read what thousands of satisfied customers have to say about MobiComm</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="images/imageboy1.png" alt="Customer" class="testimonial-image">
+                            <div class="ms-3">
+                                <h5 class="testimonial-name mb-0">Rahul</h5>
+                                <small class="text-muted">Salem</small>
+                            </div>
+                        </div>
+                        <div class="testimonial-quote">
+                            "MobiComm's quick recharge process saves me so much time! Their plans are reasonably priced and the data speeds are amazing. Customer for 2+ years now!"
+                        </div>
+                        <div class="text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="images/imagegirl.png" alt="Customer" class="testimonial-image">
+                            <div class="ms-3">
+                                <h5 class="testimonial-name mb-0">Anita</h5>
+                                <small class="text-muted">Chennai</small>
+                            </div>
+                        </div>
+                        <div class="testimonial-quote">
+                            "I love how easy it is to recharge on MobiComm! The plans are transparent with no hidden charges, and customer service is always helpful when needed."
+                        </div>
+                        <div class="text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add this as the third testimonial card inside the testimonial-section's row div -->
+<div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+    <div class="testimonial-card">
+        <div class="d-flex align-items-center mb-3">
+            <img src="images/imageboy.png" alt="Customer" class="testimonial-image">
+            <div class="ms-3">
+                <h5 class="testimonial-name mb-0">Vikram</h5>
+                <small class="text-muted">Bangalore</small>
+            </div>
+        </div>
+        <div class="testimonial-quote">
+            "MobiComm has the best data plans in the market! Their annual plan saved me a lot of money, and the network coverage is excellent even in remote areas. Highly recommended!"
+        </div>
+        <div class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i>
+        </div>
+    </div>
+</div>
+
+     <!-- FAQ Section -->
+<section class="faq-section py-5 bg-light" data-aos="fade-up">
+    <div class="container-fluid">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Frequently Asked Questions</h2>
+            <p class="text-muted">Get answers to common questions about mobile recharges</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <!-- Question 1 -->
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                How long does it take for my recharge to be processed?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Most recharges are processed instantly after payment confirmation. In rare cases, it might take up to 15 minutes due to network or system issues. If your recharge isn't processed within 30 minutes, please contact our customer support with your transaction ID.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                What payment methods can I use for recharging?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We accept multiple payment methods including UPI, Credit Cards, Debit Cards, Net Banking, and Mobile Wallets like Paytm, PhonePe, and Google Pay. You can also save your payment information securely for faster recharges in the future.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                What should I do if my recharge fails but money is deducted?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Don't worry! If your recharge fails but the amount is deducted from your account, the money is usually refunded automatically within 24-48 hours. If you don't receive a refund, please contact our customer support with your transaction details and we'll resolve it promptly.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4 -->
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Can I schedule future recharges or set up auto-recharge?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! We offer both scheduled and auto-recharge options. You can schedule a one-time future recharge or set up auto-recharge to automatically recharge your number when your balance is low or on a specific date each month. This can be configured in your account settings after logging in.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Section -->
+<footer class="footer  py-5">
+    <div class="container">
+        <div class="row text-white">
+            <!-- About MobiComm -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">MobiComm</h5>
+                <p class="footer-text">
+                    Your trusted partner for mobile recharges and digital services. 
+                    We are committed to providing the best plans and seamless experience.
+                </p>
+                <div class="social-icons">
+                    <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="plans 2.html">Prepaid Plans</a></li>
+                    <li><a href="discover.html">Discover</a></li>
+                    <li><a href="profile2.html">My Account</a></li>
+                    <li><a href="support2.html">Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Support -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Support</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Mobile Recharge</a></li>
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Us & QR Code -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li><i class="bi bi-geo-alt me-2"></i> 123 Digital Street, Tech City</li>
+                    <li><i class="bi bi-telephone me-2"></i> +91 9876543210</li>
+                    <li><i class="bi bi-envelope me-2"></i> support@mobicomm.com</li>
+                </ul>
+                <h6 class="mt-3">Download Our App</h6>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://play.google.com/store" alt="QR Code" width="100">
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-white text-center mt-4 pt-3">
+            <p>© 2025 MobiComm. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </div>
+</footer>
+
+     
+
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const proceedBtn = document.getElementById('proceedBtn');
+    const mobileInput = document.getElementById('mobileNumber');
+    
+    // List of valid MobiComm 10-digit numbers (you should replace with your actual list)
+    const validMobiCommNumbers = [
+        '9790692678', 
+        '9023456789', 
+        '8801234567'
+        // Add more valid numbers here
+    ];
+    
+    // Function to show error message above the button
+    function showErrorMessage(message) {
+        // Remove any existing error message
+        let existingError = document.getElementById('error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Create new error message element
+        const errorElement = document.createElement('div');
+        errorElement.id = 'error-message';
+        errorElement.textContent = message;
+        errorElement.style.color = 'red';
+        errorElement.style.marginBottom = '10px';
+        errorElement.style.fontSize = '14px';
+        
+        // Insert error message above the proceed button
+        proceedBtn.parentNode.insertBefore(errorElement, proceedBtn);
+    }
+    
+    // Function to validate and proceed
+    function validateAndProceed() {
+        const number = mobileInput.value.trim();
+        
+        // Check if number is exactly 10 digits
+        if (!/^\d{10}$/.test(number)) {
+            showErrorMessage("Please enter a valid 10-digit mobile number");
+            return;
+        }
+        
+        // Check if the full number is a valid MobiComm number
+        if (!validMobiCommNumbers.includes(number)) {
+            showErrorMessage("This number doesn't belong to MobiComm. Please enter a MobiComm number.");
+            return;
+        }
+        
+        // If we get here, the number is valid
+        sessionStorage.setItem('mobiCommNumber', number);
+        window.location.href = 'plans.html';
+    }
+    
+    // Add event listeners
+    proceedBtn.addEventListener('click', validateAndProceed);
+    mobileInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') validateAndProceed();
+    });
+});
+    // Initialize AOS animation library
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+    
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 10) {
+            document.getElementById('mainNav').classList.add('scrolled');
+        } else {
+            document.getElementById('mainNav').classList.remove('scrolled');
+        }
+    });
+    
+    // Create floating background elements
+    function createFloatingElements() {
+        const container = document.getElementById('background-animation');
+        const colors = ['#f8d7da', '#d1e7dd', '#cfe2ff', '#fff3cd'];
+        
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            
+            // Random size between 50px and 150px
+            const size = Math.random() * 100 + 50;
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            
+            // Random position
+            element.style.top = `${Math.random() * 100}%`;
+            element.style.left = `${Math.random() * 100}%`;
+            
+            // Random animation duration between 10s and 30s
+            const duration = Math.random() * 20 + 10;
+            element.style.animation = `float ${duration}s infinite ease-in-out`;
+            
+            container.appendChild(element);
+        }
+    }
+    
+    // Counter animation
+    function animateCounters() {
+        const counters = document.querySelectorAll('.counter-number');
+        const speed = 200;
+        
+        counters.forEach(counter => {
+            const target = parseFloat(counter.getAttribute('data-target'));
+            const increment = target / speed;
+            let currentValue = 0;
+            
+            const updateCounter = () => {
+                if (currentValue < target) {
+                    currentValue += increment;
+                    counter.textContent = currentValue.toFixed(1).replace(/\.0$/, '');
+                    setTimeout(updateCounter, 10);
+                } else {
+                    counter.textContent = target;
+                }
+            };
+            
+            updateCounter();
+        });
+    }
+    
+    // Toggle active state for step boxes
+    function toggleStep(element) {
+        const stepBoxes = document.querySelectorAll('.step-box');
+        stepBoxes.forEach(box => box.classList.remove('active'));
+        element.classList.add('active');
+    }
+    
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        createFloatingElements();
+        
+        // Animate counters when they come into view
+        const counterSection = document.querySelector('.counters-section');
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateCounters();
+                observer.disconnect();
+            }
+        });
+        
+        if (counterSection) {
+            observer.observe(counterSection);
+        }
+    });
+</script>

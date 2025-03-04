@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MobiComm Prepaid Support</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <!-- Animate.css for additional animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #880e4f;
+            --secondary: #ffc107;
+            --bg-light: #fffaf6; /* Soft background for the card */
+            --text-dark: #333333;
+            --text-light: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        
+        .navbar {
+            background-color: #880E4F;
+            padding: 5px 5px;
+            transition: all 0.4s ease;
+            border-radius: 50px;
+            position: sticky;
+            z-index: 1000;
+            top: 0;
+        }
+
+        .navbar-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 28px; 
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-right: 5px;
+        }
+        .profile-icon {
+            border-radius: 50%; 
+            border: none;
+            background: none;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-icon:hover 
+        {
+            transform: scale(1.1);
+        }
+        
+        .navbar.scrolled {
+            border-radius: 0;
+            padding: 10px 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        
+        .hero {
+            background-color: var(--bg-light);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .search-container {
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+        
+        .search-box {
+            display: flex;
+            width: 100%;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-box button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: var(--text-light);
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        /* Contact Form Styles */
+        .contact-form-section {
+            background-color: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-form-section h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .contact-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(136, 14, 79, 0.1);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary);
+            color: var(--text-light);
+            border: none;
+            border-radius: 4px;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #6a0a3d; /* Darker version of primary */
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background-color: var(--bg-light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .accordion {
+            margin-bottom: 1rem;
+        }
+        
+        .accordion-header {
+            background-color: rgba(255, 193, 7, 0.2); /* Lighter version of secondary */
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .accordion-header:hover {
+            background-color: rgba(255, 193, 7, 0.3);
+        }
+        
+        .accordion-content {
+            padding: 1rem;
+            display: none;
+            background-color: #fff;
+            border: 1px solid #e9e9e9;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        /* Need More Help Section */
+        .contact-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background-color: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .contact-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #6a0a3d; /* Darker version of primary */
+        }
+        
+        footer {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+        }
+        .footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 1.5rem;
+            
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: var(--text-light);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .contact-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.row {
+                flex-direction: column;
+            }
+            
+            .form-group.row .col {
+                margin-bottom: 1rem;
+            }
+            
+            .form-group.row .col:last-child {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
+        <div class="container-fluid">
+            <span class="navbar-logo animate__animated animate__fadeIn">Mobi-Comm</span>
+
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link " href="home.html">Recharge</a></li>
+                    <li class="nav-item"><a class="nav-link" href="plans.html">Prepaid</a></li>
+                    <li class="nav-item"><a class="nav-link" href="discover.html">Discover</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="support.html">Support</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown ms-3">
+                <a href="profile2.html">
+                    <i class="bi bi-person-circle" style="font-size: 50px; color:white;"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>How can we help you?</h1>
+            <p>Find answers to common questions about MobiComm Prepaid services or contact our support team for personalized assistance.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- <div class="search-container">
+            <form class="search-box">
+                <input type="text" placeholder="Search for help topics...">
+                <button type="submit">Search</button>
+            </form>
+        </div> -->
+
+        <!-- Contact Form Section (Replacing the first section) -->
+        <section class="contact-form-section">
+            <h2>Contact Our Support Team</h2>
+            <div class="contact-form">
+                <form id="supportForm" onsubmit="return submitForm(event)">
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <div class="col">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" required>
+                        </div>
+                        <div class="col">
+                            <label for="category" class="form-label">Issue Category</label>
+                            <select id="category" name="category" class="form-control" required>
+                                <option value="" selected disabled>Select a category</option>
+                                <option value="account">Account Management</option>
+                                <option value="payment">Payments & Recharge</option>
+                                <option value="plan">Plan Management</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" name="subject" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Your Message</label>
+                        <textarea id="message" name="message" class="form-control" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="submit-btn">Submit Query</button>
+                        <p class="mt-2 small text-muted">Our support team will respond to your query within 24 hours.</p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="accordion">
+                <div class="accordion-header">
+                    How do I check my current balance?
+                    <span class="toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>You can check your current balance in several ways:</p>
+                    <ul>
+                        <li>Open the MobiComm app and view your balance on the home screen</li>
+                        <li>Dial *123# from your registered mobile number</li>
+                        <li>Log in to your account on the MobiComm website</li>
+                        <li>Send a text message with the word "BALANCE" to 12345</li>
+                    </ul>
+                    <p>Your balance information includes your remaining data, talk time, SMS, and account validity.</p>
+                </div>
+            </div>
+            
+            <div class="accordion">
+                <div class="accordion-header">
+                    What happens if my balance runs out?
+                    <span class="toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>When your prepaid balance runs out:</p>
+                    <p>You won't be able to make outgoing calls or use data services. However, you can still receive incoming calls for a grace period of 15 days after your balance expires. You can still access the MobiComm app using WiFi to recharge your account.</p>
+                    <p>To restore full service, simply recharge your account with any available payment method. Your services will be restored immediately after a successful recharge.</p>
+                </div>
+            </div>
+            
+            <div class="accordion">
+                <div class="accordion-header">
+                    How do I activate international roaming?
+                    <span class="toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>To activate international roaming on your MobiComm prepaid account:</p>
+                    <ol>
+                        <li>Open the MobiComm app and navigate to "Services"</li>
+                        <li>Select "International Services" and then "Roaming"</li>
+                        <li>Choose the countries you'll be visiting</li>
+                        <li>Select a roaming package that suits your needs</li>
+                        <li>Complete the payment to activate roaming</li>
+                    </ol>
+                    <p>Note that you need to have sufficient balance in your account to purchase a roaming package. Activation usually takes 2-4 hours to process. We recommend activating roaming at least 24 hours before your travel date.</p>
+                </div>
+            </div>
+            
+            <div class="accordion">
+                <div class="accordion-header">
+                    Can I transfer my balance to another MobiComm user?
+                    <span class="toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Yes, MobiComm allows balance transfers between prepaid users. To transfer balance:</p>
+                    <ul>
+                        <li>Open the MobiComm app and go to "Services"</li>
+                        <li>Select "Balance Transfer"</li>
+                        <li>Enter the recipient's MobiComm number</li>
+                        <li>Enter the amount you wish to transfer</li>
+                        <li>Confirm with your PIN</li>
+                    </ul>
+                    <p>There is a small service fee of 2% for each transfer. The minimum transfer amount is $5, and the maximum is $50 per day. Both accounts must be active and at least 90 days old to use this feature.</p>
+                </div>
+            </div>
+            
+            <div class="accordion">
+                <div class="accordion-header">
+                    How do I report a lost or stolen phone?
+                    <span class="toggle">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>If your phone is lost or stolen, you should immediately:</p>
+                    <ol>
+                        <li>Use another phone to call our Customer Support at 1-800-MOBICOM to report the incident</li>
+                        <li>Our team will suspend your service to prevent unauthorized usage</li>
+                        <li>Log in to your MobiComm account from a different device and change your password</li>
+                        <li>File a police report if your phone was stolen</li>
+                    </ol>
+                    <p>When you get a replacement phone, contact our support team to transfer your number to the new device. You may need to provide identification to verify you're the account owner.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Updated Need More Help Section -->
+        <section class="contact-section">
+            <h2>Need More Help?</h2>
+            <p>Our support team is available to assist you with any questions or issues.</p>
+            
+            <div class="contact-options">
+                <div class="contact-card">
+                    <i class="bi bi-telephone-fill"></i>
+                    <h3>Call Us</h3>
+                    <p>Speak with a support representative</p>
+                    <p>1-800-MOBICOM</p>
+                    <p>Mon-Sat: 8AM - 10PM</p>
+                </div>
+                
+                <div class="contact-card">
+                    <i class="bi bi-envelope-fill"></i>
+                    <h3>Email Support</h3>
+                    <p>Get a response within 24 hours</p>
+                    <a href="mailto:support@mobicomm.com" class="btn">Send Email</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <!-- Footer Section -->
+<footer class="footer  py-5">
+    <div class="container">
+        <div class="row text-white">
+            <!-- About MobiComm -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">MobiComm</h5>
+                <p class="footer-text">
+                    Your trusted partner for mobile recharges and digital services. 
+                    We are committed to providing the best plans and seamless experience.
+                </p>
+                <div class="social-icons">
+                    <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="plans 2.html">Prepaid Plans</a></li>
+                    <li><a href="discover.html">Discover</a></li>
+                    <li><a href="profile2.html">My Account</a></li>
+                    <li><a href="support2.html">Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Support -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Support</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Mobile Recharge</a></li>
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Us & QR Code -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li><i class="bi bi-geo-alt me-2"></i> 123 Digital Street, Tech City</li>
+                    <li><i class="bi bi-telephone me-2"></i> +91 9876543210</li>
+                    <li><i class="bi bi-envelope me-2"></i> support@mobicomm.com</li>
+                </ul>
+                <h6 class="mt-3">Download Our App</h6>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://play.google.com/store" alt="QR Code" width="100">
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom text-white text-center mt-4 pt-3">
+            <p>© 2025 MobiComm. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </div>
+</footer>
+
+
+    <script>
+        // Form submission handler
+        function submitForm(event) {
+            event.preventDefault();
+            // Form validation
+            const form = document.getElementById('supportForm');
+            if (form.checkValidity()) {
+                // Show success message (in a real application, this would send the form data to a server)
+                alert("Thank you for contacting us! Your query has been submitted successfully. Our support team will respond within 24 hours.");
+                form.reset();
+            } else {
+                // Show validation error
+                form.reportValidity();
+            }
+            return false;
+        }
+        
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                
+                // Toggle the active class
+                content.classList.toggle('active');
+                
+                // Change the toggle symbol
+                const toggleSymbol = button.querySelector('.toggle');
+                toggleSymbol.textContent = content.classList.contains('active') ? '-' : '+';
+                
+                // Close other accordions
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    if (item !== content && item.classList.contains('active')) {
+                        item.classList.remove('active');
+                        item.previousElementSibling.querySelector('.toggle').textContent = '+';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

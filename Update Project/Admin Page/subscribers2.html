@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal - Expiring Subscriptions</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  <!-- jsPDF for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    .sidebar {
+      height: 100vh;
+      background-color: #222222;
+      color: white;
+    }
+    .sidebar-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+      display: block;
+    }
+    .sidebar-item:hover {
+      background-color: #333333;
+    }
+    .sidebar-item.active {
+      background-color: #444444;
+    }
+    .days-left-badge {
+      background-color: #ffecec;
+      color: #dc3545;
+    }
+    .content-wrapper {
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .subscriber-details {
+      background-color: #f8f9fa;
+      display: none;
+    }
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1050;
+    }
+    .usage-history {
+      display: none;
+      margin-top: 15px;
+      border-top: 1px solid #dee2e6;
+      padding-top: 15px;
+    }
+    @media (max-width: 767.98px) {
+      .sidebar {
+        position: fixed;
+        width: 100%;
+        height: auto;
+        z-index: 1030;
+      }
+      .sidebar-collapse {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out;
+      }
+      .sidebar-collapse.show {
+        max-height: 300px;
+      }
+      .content-wrapper {
+        margin-top: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 col-lg-2 p-0 sidebar">
+        <div class="p-3">
+          <h2 class="h4 fw-bold">Admin Portal</h2>
+        </div>
+        <div class="d-flex flex-column">
+          <!-- <a class="sidebar-item" href="dashboard.html">
+            <i class="bi bi-speedometer2 me-2"></i> Dashboard
+          </a> -->
+          <a class="sidebar-item active" href="subscribers2.html">
+            <i class="bi bi-people-fill me-2"></i> Subscribers Management
+          </a>
+          <a class="sidebar-item" href="plan management.html">
+            <i class="bi bi-card-list me-2"></i> Plan Management
+          </a>
+          <a class="sidebar-item" href="reports.html">
+            <i class="bi bi-bar-chart-fill me-2"></i> Reports
+          </a>
+          <a class="sidebar-item" href="settings.html">
+            <i class="bi bi-gear-fill me-2"></i> Settings
+          </a>
+          <a class="sidebar-item mt-5" href="logout.html">
+            <i class="bi bi-box-arrow-right me-2"></i> Logout
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-md-9 col-lg-10 p-0 content-wrapper">
+        <!-- Header -->
+        <header class="bg-white shadow-sm p-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0">Expiring Subscriptions</h1>
+            <div class="d-flex align-items-center">
+              <div class="input-group me-3" style="width: 250px;">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search subscribers...">
+                <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+              <div class="rounded-circle bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                <span>A</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h5 mb-0">Subscribers Expiring in 3 Days</h2>
+                <div>
+                  <button class="btn btn-outline-primary btn-sm me-2" id="bulkRenewBtn">
+                    <i class="bi bi-arrow-repeat me-1"></i> Bulk Renew
+                  </button>
+                  <button class="btn btn-outline-primary btn-sm me-2" id="sendAllRemindersBtn">
+                    <i class="bi bi-bell me-1"></i> Send All Reminders
+                  </button>
+                  <button class="btn btn-outline-primary btn-sm" id="exportBtn">
+                    <i class="bi bi-download me-1"></i> Export as PDF
+                  </button>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover" id="subscribersTable">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Subscriber</th>
+                      <th>Plan</th>
+                      <th>Expiry Date</th>
+                      <th class="text-center">Days Left</th>
+                      <th class="text-center">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Table rows will be populated by JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container for Notifications -->
+  <div class="toast-container"></div>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Make jsPDF global variables accessible
+    const { jsPDF } = window.jspdf;
+
+    // Sample subscriber data
+    const subscribers = [
+      { 
+        id: 1, 
+        name: "Pradeepa", 
+        phone: "+91 98765 43210", 
+        plan: "Standard Plan", 
+        activationDate: "2025-03-01", 
+        expiryDate: "2025-03-07", 
+        daysLeft: 3,
+        planDetails: { 
+          price: "₹299/month", 
+          data: "3GB/day", 
+          calls: "Unlimited", 
+          sms: "150/day" 
+        },
+        usageHistory: [
+          { date: "2024-09-07", plan: "Standard Plan", amount: "₹299", validity: "30 days" },
+          { date: "2024-10-07", plan: "Standard Plan", amount: "₹299", validity: "30 days" },
+          { date: "2024-11-07", plan: "Standard Plan", amount: "₹299", validity: "30 days" },
+          { date: "2024-12-07", plan: "Standard Plan", amount: "₹299", validity: "30 days" },
+          { date: "2025-01-07", plan: "Standard Plan", amount: "₹299", validity: "30 days" },
+          { date: "2025-02-07", plan: "Standard Plan", amount: "₹299", validity: "30 days" }
+        ]
+      },
+      { 
+        id: 2, 
+        name: "Priya", 
+        phone: "+91 87654 32109", 
+        plan: "Basic Plan", 
+        activationDate: "2025-03-01", 
+        expiryDate: "2025-03-07", 
+        daysLeft: 3,
+        planDetails: { 
+          price: "₹199/month", 
+          data: "2GB/day", 
+          calls: "Unlimited", 
+          sms: "100/day" 
+        },
+        usageHistory: [
+          { date: "2024-11-07", plan: "Premium Plan", amount: "₹499", validity: "30 days" },
+          { date: "2024-12-07", plan: "Premium Plan", amount: "₹499", validity: "30 days" },
+          { date: "2025-01-07", plan: "Basic Plan", amount: "₹199", validity: "30 days" },
+          { date: "2025-02-07", plan: "Basic Plan", amount: "₹199", validity: "30 days" }
+        ]
+      },
+      { 
+        id: 3, 
+        name: "Amit", 
+        phone: "+91 76543 21098", 
+        plan: "Half-Yearly Data", 
+        activationDate: "2024-09-09", 
+        expiryDate: "2025-03-07", 
+        daysLeft: 3,
+        planDetails: { 
+          price: "₹799", 
+          data: "5GB/Day", 
+          calls: "Unlimited", 
+          sms: "Unlimited" 
+        },
+        usageHistory: [
+          { date: "2024-03-09", plan: "Half-Yearly Data", amount: "₹799", validity: "180 days" },
+          { date: "2024-09-09", plan: "Half-Yearly Data", amount: "₹799", validity: "180 days" }
+        ]
+      },
+      { 
+        id: 4, 
+        name: "Sneha", 
+        phone: "+91 65432 10987", 
+        plan: "Hero Basic", 
+        activationDate: "2024-12-14", 
+        expiryDate: "2025-03-07", 
+        daysLeft: 3,
+        planDetails: { 
+          price: "₹399", 
+          data: "1.5GB/Day", 
+          calls: "Unlimited", 
+          sms: "100 SMS/Day" 
+        },
+        usageHistory: [
+          { date: "2024-06-14", plan: "Hero Basic", amount: "₹399", validity: "84 days" },
+          { date: "2024-09-14", plan: "Hero Basic", amount: "₹399", validity: "84 days" },
+          { date: "2024-12-14", plan: "Hero Basic", amount: "₹399", validity: "84 days" }
+        ]
+      },
+      { 
+        id: 5, 
+        name: "Vikram", 
+        phone: "+91 54321 09876", 
+        plan: "Diamond Plan", 
+        activationDate: "2024-03-08", 
+        expiryDate: "2025-03-07", 
+        daysLeft: 3,
+        planDetails: { 
+          price: "₹999/month", 
+          data: "6GB/day", 
+          calls: "Unlimited", 
+          sms: "500/day" 
+        },
+        usageHistory: [
+          { date: "2024-09-07", plan: "Diamond Plan", amount: "₹999", validity: "30 days" },
+          { date: "2024-10-07", plan: "Diamond Plan", amount: "₹999", validity: "30 days" },
+          { date: "2024-11-07", plan: "Diamond Plan", amount: "₹999", validity: "30 days" },
+          { date: "2024-12-07", plan: "Diamond Plan", amount: "₹999", validity: "30 days" },
+          { date: "2025-01-07", plan: "Diamond Plan", amount: "₹999", validity: "30 days" },
+          { date: "2025-02-07", plan: "Diamond Plan", amount: "₹999", validity: "30 days" }
+        ]
+      }
+    ];
+
+    // Function to show toast notification
+    function showToast(message, type = 'success') {
+      const toastContainer = document.querySelector('.toast-container');
+      const toastId = 'toast-' + Date.now();
+      const toastHTML = `
+        <div id="${toastId}" class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body">
+              ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+      `;
+      toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+      const toastElement = document.getElementById(toastId);
+      const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+      toast.show();
+      
+      // Remove toast element after it's hidden
+      toastElement.addEventListener('hidden.bs.toast', function() {
+        this.remove();
+      });
+    }
+
+    // Function to populate the table
+    function populateTable(filteredSubscribers = subscribers) {
+      const tableBody = document.querySelector('#subscribersTable tbody');
+      tableBody.innerHTML = '';
+
+      if (filteredSubscribers.length === 0) {
+        const emptyRow = document.createElement('tr');
+        emptyRow.innerHTML = `<td colspan="5" class="text-center py-3">No subscribers found</td>`;
+        tableBody.appendChild(emptyRow);
+        return;
+      }
+
+      filteredSubscribers.forEach(subscriber => {
+        // Create main row
+        const mainRow = document.createElement('tr');
+        mainRow.id = `subscriber-${subscriber.id}`;
+        
+        mainRow.innerHTML = `
+          <td>
+            <div>
+              <span class="fw-medium">${subscriber.name}</span>
+              <div class="small text-muted">${subscriber.phone}</div>
+            </div>
+          </td>
+          <td>
+            <span class="fw-medium">${subscriber.plan}</span>
+            <div class="small text-muted">${subscriber.planDetails.price}</div>
+          </td>
+          <td>${subscriber.expiryDate}</td>
+          <td class="text-center">
+            <span class="badge rounded-pill days-left-badge">
+              ${subscriber.daysLeft} days
+            </span>
+          </td>
+          <td class="text-center">
+            <button class="btn btn-success btn-sm me-1 renew-btn" data-id="${subscriber.id}">Renew</button>
+            <button class="btn btn-primary btn-sm me-1 remind-btn" data-id="${subscriber.id}">Remind</button>
+            <button class="btn btn-light btn-sm toggle-details" data-id="${subscriber.id}">Details</button>
+          </td>
+        `;
+        
+        tableBody.appendChild(mainRow);
+        
+        // Create details row (initially hidden)
+        const detailsRow = document.createElement('tr');
+        detailsRow.id = `details-${subscriber.id}`;
+        detailsRow.className = 'subscriber-details';
+        
+        // Generate usage history HTML
+        let usageHistoryHTML = '';
+        if (subscriber.usageHistory && subscriber.usageHistory.length > 0) {
+          usageHistoryHTML = `
+            <div id="usage-history-${subscriber.id}" class="usage-history">
+              <h5 class="fw-medium h6 mb-3">Previous Recharges</h5>
+              <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Plan</th>
+                      <th>Amount</th>
+                      <th>Validity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${subscriber.usageHistory.map(history => `
+                      <tr>
+                        <td>${history.date}</td>
+                        <td>${history.plan}</td>
+                        <td>${history.amount}</td>
+                        <td>${history.validity}</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+        }
+        
+        detailsRow.innerHTML = `
+          <td colspan="5" class="p-3">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <h5 class="fw-medium h6">Plan Details</h5>
+                <ul class="mb-0 small">
+                  <li>Data: ${subscriber.planDetails.data}</li>
+                  <li>Calls: ${subscriber.planDetails.calls}</li>
+                  <li>SMS: ${subscriber.planDetails.sms}</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <h5 class="fw-medium h6">Subscription Info</h5>
+                <ul class="mb-0 small">
+                  <li>Activation: ${subscriber.activationDate}</li>
+                  <li>Expiry: ${subscriber.expiryDate}</li>
+                  <li>Status: <span class="text-danger">Expiring soon</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="mt-3">
+              <button class="btn btn-sm text-white usage-btn" data-id="${subscriber.id}" style="background-color: #6f42c1;">
+                <i class="bi bi-clock-history me-1"></i> View Usage History
+              </button>
+            </div>
+            ${usageHistoryHTML}
+          </td>
+        `;
+        
+        tableBody.appendChild(detailsRow);
+      });
+    }
+
+    // Call function to initialize table
+    populateTable();
+
+    // Export table as PDF
+    function exportTableToPDF() {
+      // Initialize jsPDF
+      const doc = new jsPDF();
+      
+      // Add title
+      doc.setFontSize(16);
+      doc.text('Expiring Subscriptions Report', 14, 15);
+      doc.setFontSize(11);
+      doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 22);
+      
+      // Define the columns for the table
+      const columns = [
+        {header: 'Subscriber', dataKey: 'name'},
+        {header: 'Phone', dataKey: 'phone'},
+        {header: 'Plan', dataKey: 'plan'},
+        {header: 'Expiry Date', dataKey: 'expiryDate'},
+        {header: 'Days Left', dataKey: 'daysLeft'}
+      ];
+      
+      // Prepare the data
+      const tableData = subscribers.map(subscriber => {
+        return {
+          name: subscriber.name,
+          phone: subscriber.phone,
+          plan: subscriber.plan,
+          expiryDate: subscriber.expiryDate,
+          daysLeft: subscriber.daysLeft + ' days'
+        };
+      });
+      
+      // Create the table
+      doc.autoTable({
+        startY: 30,
+        head: [columns.map(column => column.header)],
+        body: tableData.map(data => columns.map(column => data[column.dataKey])),
+        theme: 'striped',
+        headStyles: {
+          fillColor: [33, 33, 33],
+          textColor: [255, 255, 255]
+        },
+        margin: {top: 30}
+      });
+      
+      // Save the PDF
+      doc.save('expiring_subscriptions.pdf');
+    }
+
+    // Search functionality
+    document.getElementById('searchButton').addEventListener('click', function() {
+      performSearch();
+    });
+
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    function performSearch() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+      if (searchTerm === '') {
+        populateTable();
+        return;
+      }
+      
+      const filteredSubscribers = subscribers.filter(subscriber => {
+        return subscriber.name.toLowerCase().includes(searchTerm) || 
+               subscriber.phone.toLowerCase().includes(searchTerm) || 
+               subscriber.plan.toLowerCase().includes(searchTerm);
+      });
+      
+      populateTable(filteredSubscribers);
+      showToast(`Found ${filteredSubscribers.length} subscriber(s) matching "${searchTerm}"`, 'info');
+    }
+
+    // Bulk operations
+    document.getElementById('bulkRenewBtn').addEventListener('click', function() {
+      showToast('Bulk renewal initiated for all 5 subscribers', 'success');
+    });
+
+    document.getElementById('sendAllRemindersBtn').addEventListener('click', function() {
+      showToast('Reminders sent to all 5 subscribers', 'success');
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', function() {
+      showToast('Generating PDF...', 'info');
+      setTimeout(() => {
+        try {
+          exportTableToPDF();
+          showToast('PDF downloaded successfully!', 'success');
+        } catch (error) {
+          showToast('Error generating PDF: ' + error.message, 'danger');
+          console.error(error);
+        }
+      }, 500);
+    });
+
+    // Event delegation for all buttons
+    document.addEventListener('click', function(e) {
+      // Toggle details
+      if (e.target.classList.contains('toggle-details') || e.target.parentElement.classList.contains('toggle-details')) {
+        const button = e.target.classList.contains('toggle-details') ? e.target : e.target.parentElement;
+        const id = button.getAttribute('data-id');
+        const detailsRow = document.getElementById(`details-${id}`);
+        
+        if (detailsRow.style.display === 'table-row') {
+          detailsRow.style.display = 'none';
+          button.textContent = 'Details';
+        } else {
+          detailsRow.style.display = 'table-row';
+          button.textContent = 'Hide';
+          
+          // Hide any visible usage history
+          const usageHistory = document.getElementById(`usage-history-${id}`);
+          if (usageHistory) {
+            usageHistory.style.display = 'none';
+          }
+        }
+      }
+      
+      // Renew button
+      if (e.target.classList.contains('renew-btn')) {
+        const id = e.target.getAttribute('data-id');
+        const subscriber = subscribers.find(s => s.id == id);
+        showToast(`Renewal processed for ${subscriber.name}`, 'success');
+      }
+      
+      // Remind button
+      if (e.target.classList.contains('remind-btn')) {
+        const id = e.target.getAttribute('data-id');
+        const subscriber = subscribers.find(s => s.id == id);
+        showToast(`Reminder sent to ${subscriber.name}`, 'info');
+      }
+      
+      // Usage History button
+      if (e.target.classList.contains('usage-btn') || e.target.parentElement.classList.contains('usage-btn')) {
+        const button = e.target.classList.contains('usage-btn') ? e.target : e.target.parentElement;
+        const id = button.getAttribute('data-id');
+        const subscriber = subscribers.find(s => s.id == id);
+        const usageHistory = document.getElementById(`usage-history-${id}`);
+        
+        if (usageHistory) {
+          if (usageHistory.style.display === 'block') {
+            usageHistory.style.display = 'none';
+            button.innerHTML = '<i class="bi bi-clock-history me-1"></i> View Usage History';
+          } else {
+            usageHistory.style.display = 'block';
+            button.innerHTML = '<i class="bi bi-dash-circle me-1"></i> Hide Usage History';
+            showToast(`Loaded usage history for ${subscriber.name}`, 'info');
+          }
+        } else {
+          showToast(`No usage history available for ${subscriber.name}`, 'warning');
+        }
+      }
+    });
+
+    // No longer needed since we're using real links
+    // Keeping the logout functionality for notifications
+    document.querySelector('.sidebar-item[href="logout.html"]').addEventListener('click', function(e) {
+      e.preventDefault(); // Prevent navigation just for demo purposes
+      showToast('Logging out...', 'danger');
+      setTimeout(() => {
+        showToast('You have been logged out', 'secondary');
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
